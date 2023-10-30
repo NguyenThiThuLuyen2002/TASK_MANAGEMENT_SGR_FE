@@ -44,6 +44,7 @@
 <script>
 export default {
     props: {
+        id : Number,
         title: String,
         sender: String,
         time: String,
