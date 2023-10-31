@@ -7,7 +7,7 @@
             <!--type-->
             <div class="mb-4 mt-10">
                 <label class="block text-sm my-0.5">Type:</label>
-                <select v-model="type" class="border-2 rounded-md p-1 w-full text-sm">
+                <select class="border-2 rounded-md p-1 w-full text-sm">
                     <option value="Question">Question</option>
                     <option value="Issue">Issue</option>
                     <option value="Feedback">Feedback</option>
@@ -37,7 +37,7 @@
             <!-- info -->
             <div class="info flex">
                 <!--avatar-->
-                <img src="https://imgflip.com/s/meme/Cute-Cat.jpg" alt="" class="h-12 w-12 rounded-full mr-2">
+                <img :src="selectedItem.avatar" alt="" class="h-12 w-12 rounded-full mr-2">
                 <div>
                     <div>
                         <h2 class="text-lg font-semibold">From: {{ selectedItem.sender }}</h2>
@@ -91,6 +91,11 @@
             </li>
             </ul>
             </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">REPLIES</h3>
+                <hr>
+                <div v-for="htmlText in text" v-html="htmlText"></div>
+            </div>
             <!--reply button-->
             <div class="mt-10">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full" v-if="toggleButton" @click="toggleEdit">
@@ -98,7 +103,7 @@
                 </button>
             </div>
             <!--editor-->
-            <Editor v-if="!toggleButton" ></Editor>
+            <Editor v-if="!toggleButton" @replyMessage="handleReplyMessage"  ></Editor>
   
         </div>
         
@@ -122,12 +127,21 @@ export default {
   data(){
     return{
       selectedItem: this.store.itemDetail,
-      toggleButton: true
+      toggleButton: true,
+      text : []
     }
   },
   methods:{
     toggleEdit()
     {
+      this.toggleButton = !this.toggleButton
+    },
+    handleReplyMessage(text)
+    {
+      console.log("Received reply from component con in component cha");
+      console.log("Text received:", text);  
+      this.text.push(text);
+      this.text.push('</br>');
       this.toggleButton = !this.toggleButton
     }
   }
