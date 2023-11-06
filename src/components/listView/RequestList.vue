@@ -1,4 +1,12 @@
 <template>
+  <div class="w-4/5 flex items-center">
+    <button @click = "$router.push({name:'create'})" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-10">Create</button>
+    <!--search-->
+    <div class="mr-4 flex">
+            <label class="block text-sm font-medium text-gray-700">Search</label>
+            <input v-model="searchBox" type="text" class="border border-2 rounded-md p-2 w-full" />
+        </div>
+  </div>
   <div class="bg-gray-200">
     <Item v-for="(item, index) in listItems" :key="index" :title="item.title" :sender="item.sender" :time="item.time"
       :avatar="item.avatar" :numOfRes="item.numOfRes" :responder="item.responder"  @click="selectItem(item)"/>
@@ -9,6 +17,7 @@
 import Item from './RequestItem.vue';
 import ItemDetail from './ItemDetail.vue';
 import { useItemDetail } from '../../stores/itemDetail'
+import axios from 'axios';
 export default {
   components: {
     Item,
@@ -21,7 +30,19 @@ export default {
   },
   data() {
     return {
-      listItems: [
+      listItems: [],
+      selectedItem: null,
+    };
+  },
+  methods: {
+    selectItem(item){
+       this.store.itemDetail = item
+    
+      this.$router.push({name: 'itemDetail', params: {id: item.id}})
+    }
+  },
+  created(){
+    const data = [
         {
           id: 1,
           title: 'XiN sử dụng phòng họp của trường để tổ chức các sự kiện .',
@@ -94,16 +115,13 @@ export default {
           numOfRes: 3,
           responder: 'Nguyễn Văn B',
         },
-      ],
-      selectedItem: null,
-    };
-  },
-  methods: {
-    selectItem(item){
-       this.store.itemDetail = item
-    
-      this.$router.push({name: 'itemDetail', params: {id: item.id}})
-    }
+      ]
+    const t = this
+    setTimeout(function(){
+      t.listItems = data
+    }, 100)
+    // axios.get('api ben backend')
+    //   .then(data => this.listItems = data.items)
   }
 };
 </script>

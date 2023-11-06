@@ -18,7 +18,7 @@ const routes = [
     component: CreateRequest
   },
   {
-    path: '/itemDetail',
+    path: '/itemDetail/:id',
     name: 'itemDetail',
     component: ItemDetail
   },

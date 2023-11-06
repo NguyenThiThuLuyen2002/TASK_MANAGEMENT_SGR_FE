@@ -44,15 +44,15 @@
             </select>
         </div>
 
-        <!-- Description -->
+        <!-- message -->
         <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Description<span class="text-red-500">*</span></label>
-            <textarea v-model="description" class="border-2 rounded-md p-2 w-full h-32"></textarea>
+            <label class="block text-sm font-medium text-gray-700">Message<span class="text-red-500">*</span></label>
+            <textarea v-model="message" class="border-2 rounded-md p-2 w-full h-32"></textarea>
         </div>
         <!-- File Upload -->
         <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700">Upload File<span class="text-red-500">*</span></label>
-            <input  type="file" @change="handleFileUpload" class="block w-full p-2 border rounded-md" />
+            <input type="file" @change="handleFileUpload" class="block w-full p-2 border rounded-md" />
         </div>
 
         <div class="flex justify-between items-center mt-8">
@@ -65,7 +65,7 @@
             </div>
             <div>
                 <!-- Nút Cancel  -->
-                <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-4">
+                <button @click = "this.$router.push({name: 'requestList'})" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-4">
                     Cancel
                 </button>
                 <!-- Nút Submit  -->
@@ -81,13 +81,13 @@
 export default {
     data() {
         return {
-            contact: "",
-            subject: "",
+            contact: "abc",
+            subject: "abc",
             type: "Question",
             status: "Open",
             priority: "Low",
-            description: "",
-            
+            message: "abc",
+
         };
     },
     methods: {
@@ -102,12 +102,34 @@ export default {
             }
         },
         submitForm() {
-            if (this.contact && this.subject && this.status && this.priority && this.description) {
+            if (this.contact && this.subject && this.status && this.priority && this.message) {
                 // Xử lý khi tất cả trường thông tin được điền đầy đủ
                 console.log("Form submitted");
                 alert("submitted!");
+                let request = {
+                    contact: this.contact,
+                    subject: this.subject,
+                    type: this.type,
+                    status: this.status,
+                    priority: this.priority,
+                    message: this.message,
+
+
+
+                };
+
+                console.log(request)
+                // axios.post("api", request)
+                //     .then(response => {
+                //         console.log('Response:', response.data);
+                //         this.$router.push({name: 'itemDetail', params: {id: response.data.id}})
+                //     })
+                //     .catch(error => {
+                //         console.error('Error:', error);
+                    // });
             } else {
                 alert("Vui lòng điền đầy đủ thông tin bắt buộc.");
+
             }
         },
         refreshForm() {
@@ -117,9 +139,10 @@ export default {
             this.type = "Question";
             this.status = "Open";
             this.priority = "Low";
-            this.description = "";
-            
+            this.message = "";
+
         },
+       
     },
 };
 </script>
