@@ -1,6 +1,33 @@
 <script setup>
-import {useRouter} from 'vue-router'
+import axios from 'axios'
+import { ref } from 'vue'
+import { notify } from '@kyvg/vue3-notification'
+import { useRouter } from 'vue-router'
+const username = ref('')
+const password = ref('')
 const router = useRouter()
+const URL = 'http://localhost:3001/auth/login'
+
+const login = () => {
+    axios.post(URL, {
+        username: username.value,
+        password: password.value
+    })
+        .then((response) => {
+            if (response.data.token) {
+                localStorage.setItem('accessToken', JSON.stringify(response.data.token))
+                router.push({ name: 'requestList' });
+            }
+        }).catch((error) => {
+            if (error.response) {
+                notify({
+                    title: 'Error',
+                    text: 'Username or password is incorrect',
+                    type: 'error'
+                });
+            }
+        })
+}
 </script>
 <template>
     <div class="form-login">
@@ -44,13 +71,12 @@ const router = useRouter()
                                     class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot
                                     password?</a>
                             </div>
-                            <button  type="submit"
+                            <button type="submit" @click.prevent="login"
                                 class="w-full text-black bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 border-2">Sign
                                 in</button>
                             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Don’t have an account yet? <a href="#"
-                                    class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                                    >Sign up</a>
+                                    class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
                             </p>
                         </form>
                     </div>

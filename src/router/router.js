@@ -8,7 +8,7 @@ import RequestList from '../components/listView/RequestList.vue'
 import Editor from '../components/form/Editor.vue'
 const routes = [
   {
-    path: '/',
+    path: '/login',
     name: 'login',
     component: Login
   },
@@ -37,9 +37,6 @@ const routes = [
     name: 'editor',
     component: Editor
   }
- 
-
-
 ];
 
 const router = createRouter({
@@ -47,5 +44,16 @@ const router = createRouter({
   routes
 });
 
-  
+router.beforeEach((to, from) => {
+  if (to.name !== 'login' && to.name !== 'register' && !localStorage.getItem('accessToken')) {
+    router.push({ name: 'login' });
+  }
+  if (to.name === 'login' && localStorage.getItem('accessToken')) {
+    router.push({ name: 'requestList' });
+  }
+  if (to.name === 'register' && localStorage.getItem('accessToken')) {
+    router.push({ name: 'requestList' });
+  }
+})
+
 export default router;
