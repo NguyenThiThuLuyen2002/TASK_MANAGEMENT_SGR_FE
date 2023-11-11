@@ -6,7 +6,6 @@ import ItemDetail from '../components/listView/ItemDetail.vue'
 import Register from '../components/form/Register.vue'
 import RequestList from '../components/listView/RequestList.vue'
 import Editor from '../components/form/Editor.vue'
-import SideBar from '../components/SideBar.vue'
 const routes = [
   {
     path: '/login',
@@ -38,11 +37,7 @@ const routes = [
     name: 'editor',
     component: Editor
   },
-  {
-    path: '/sideBar',
-    name: 'sideBar',
-    component: SideBar
-  }
+
 ];
 
 const router = createRouter({
