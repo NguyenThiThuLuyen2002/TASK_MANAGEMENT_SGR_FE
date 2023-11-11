@@ -18,15 +18,11 @@
             </div>
         </div>
 
-        <div class="text-left w-1/5">
+        <div class="text-left  w-1/5">
             <!-- Trạng thái -->
 
-            <p class="text-gray-500 text-sm">Num of Responses: {{ numOfRes }}</p>
+            <p class="text-gray-500 text-sm">status: {{ status }}</p>
 
-
-            <!-- Người duyệt -->
-
-            <p class="text-gray-500 text-sm truncate">Recent responder: {{ responder }}</p>
 
         </div>
     </div>
@@ -39,8 +35,8 @@ export default {
         sender: String,
         time: String,
         avatar: String,
-        numOfRes: Number,
-        responder: String,
+        status: String,
+        
     },
 };
 </script>

@@ -8,8 +8,7 @@ export const useItemDetail = defineStore('itemDetail', {
             sender: '',
             time: '',
             avatar: '',
-            numOfRes: '',
-            responder: '',
+            status: '',
         }
     }),
     actions: {

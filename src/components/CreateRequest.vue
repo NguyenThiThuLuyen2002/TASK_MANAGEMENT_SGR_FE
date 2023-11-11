@@ -1,53 +1,34 @@
 <template>
     <div class="container mx-auto p-6 w-4/5 ">
-        <h1 class="text-2xl font-semibold mb-4">Tạo Mới Yêu Cầu Hỗ Trợ</h1>
+        <h1 class="text-4xl font-semibold mb-4">Create request</h1>
 
-        <!-- Contact -->
-        <div class="mb-4 ">
-            <label class="block text-sm font-medium text-gray-700 ">Contact<span class="text-red-500">*</span></label>
-            <input v-model="contact" type="text" class="border rounded-md p-2 w-full border-2" />
-        </div>
-
-        <!-- Subject -->
+        <!-- Title -->
         <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Subject<span class="text-red-500">*</span></label>
-            <input v-model="subject" type="text" class="border border-2 rounded-md p-2 w-full" />
+            <label class="block text-sm font-medium text-gray-700">Title<span class="text-red-500">*</span></label>
+            <input v-model="title" type="text" class="border border-2 rounded-md p-2 w-full" />
+        </div>
+        <!-- Title -->
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Deadline<span class="text-red-500">*</span></label>
+            <input v-model="deadline" type="text" class="border border-2 rounded-md p-2 w-full" />
         </div>
 
-        <!-- Type -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Type:</label>
-            <select v-model="type" class="border-2 rounded-md p-2 w-full">
-                <option value="Question">Question</option>
-                <option value="Issue">Issue</option>
-                <option value="Feedback">Feedback</option>
-            </select>
-        </div>
+        
 
         <!-- Status -->
         <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700">Status<span class="text-red-500">*</span></label>
-            <select v-model="status" class="border-2 rounded-md p-2 w-full">
+            <select v-model="status" class="border-2 rounded-md p-2 w-full cursor-not-allowed bg-gray-200" disabled>
                 <option value="Open">Open</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Closed">Closed</option>
             </select>
         </div>
 
-        <!-- Priority -->
+        <!-- Description -->
         <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Priority<span class="text-red-500">*</span></label>
-            <select v-model="priority" class="border-2 rounded-md p-2 w-full">
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-            </select>
-        </div>
-
-        <!-- message -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Message<span class="text-red-500">*</span></label>
-            <textarea v-model="message" class="border-2 rounded-md p-2 w-full h-32"></textarea>
+            <label class="block text-sm font-medium text-gray-700">Description<span class="text-red-500">*</span></label>
+            <textarea v-model="description" class="border-2 rounded-md p-2 w-full h-32"></textarea>
         </div>
         <!-- File Upload -->
         <div class="mb-4">
@@ -81,12 +62,9 @@
 export default {
     data() {
         return {
-            contact: "abc",
             subject: "abc",
-            type: "Question",
             status: "Open",
-            priority: "Low",
-            message: "abc",
+            description: "abc",
 
         };
     },
@@ -102,17 +80,15 @@ export default {
             }
         },
         submitForm() {
-            if (this.contact && this.subject && this.status && this.priority && this.message) {
+            if (this.title && this.deadline && this.status && this.description ) {
                 // Xử lý khi tất cả trường thông tin được điền đầy đủ
                 console.log("Form submitted");
                 alert("submitted!");
                 let request = {
-                    contact: this.contact,
-                    subject: this.subject,
-                    type: this.type,
+                    title: this.title,
+                    deadline: this.deadline,
                     status: this.status,
-                    priority: this.priority,
-                    message: this.message,
+                    description: this.description,
 
 
 
@@ -134,12 +110,10 @@ export default {
         },
         refreshForm() {
             // Đặt lại giá trị của tất cả các trường về giá trị mặc định hoặc trống
-            this.contact = "";
-            this.subject = "";
-            this.type = "Question";
+            this.title = "";
+            this.deadline = "";
             this.status = "Open";
-            this.priority = "Low";
-            this.message = "";
+            this.description = "";
 
         },
        
