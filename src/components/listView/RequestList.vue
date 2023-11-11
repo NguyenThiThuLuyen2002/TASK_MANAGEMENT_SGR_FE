@@ -1,5 +1,5 @@
-<template >
-  <div class="bg-gray-200">
+<template>
+  <div class="bg-gray-200 ">
     <div class="w-full justify-self-center flex justify-center p-5">
       <!-- Search -->
       <div class="mr-10 flex align-item-center">
