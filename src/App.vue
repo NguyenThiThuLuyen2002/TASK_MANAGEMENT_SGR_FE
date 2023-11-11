@@ -1,24 +1,16 @@
 <script setup>
-// import RequestList from './components/listView/RequestList.vue'
-// import Create from './components/listView/Create.vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const logout = () => {
+    localStorage.removeItem('accessToken')
+    router.push({ name: 'login' });
+}
 </script>
-
 <template>
-  <!-- <Create></Create> -->
+  <notifications />
   <router-view/>
-</template> 
-
-<!-- <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em; 
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style> -->
+  <!--button logout-->
+  <button v-if="$route.name !== 'login'" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" @click="logout">
+  Button
+</button>
+</template>

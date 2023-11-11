@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     selectItem(item){
-       this.store.itemDetail = item
+      this.store.itemDetail = item
     
       this.$router.push({name: 'itemDetail', params: {id: item.id}})
     }
