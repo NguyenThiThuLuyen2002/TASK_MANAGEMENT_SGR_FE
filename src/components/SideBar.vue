@@ -8,7 +8,7 @@ const logout = () => {
 </script>
 <template>
     <div class="flex">
-        <div class="flex flex-col h-screen p-3 bg-white shadow w-60">
+        <div class="flex flex-col h-full p-3 bg-white shadow w-60">
             <div class="space-y-3">
                 <div class="flex items-center">
                     <h2 class="text-xl font-bold">Dashboard</h2>

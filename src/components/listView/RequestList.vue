@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full"> 
+  <div class="w-full h-screen overflow-auto"> 
     <div>
     <div class="flex justify-between align-center my-4 mx-auto w-5/6">
       <!--search box-->
@@ -59,7 +59,8 @@ export default {
     selectItem(item) {
       this.store.itemDetail = item
 
-      this.$router.push({ name: 'itemDetail', params: { id: item.id } })
+      this.$router.push({ name: 'itemDetail', params: { id: item.ID } })
+      console.log(item)
     },
     createItem() {
       this.$router.push({ name: 'create' })
