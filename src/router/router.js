@@ -40,6 +40,11 @@ const routes = [
     path: '/editor',
     name: 'editor',
     component: Editor
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: AdminLayout,
   }
 ];
 
