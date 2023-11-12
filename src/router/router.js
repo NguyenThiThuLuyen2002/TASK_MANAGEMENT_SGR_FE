@@ -40,19 +40,7 @@ const routes = [
     path: '/editor',
     name: 'editor',
     component: Editor
-  },
-  {
-    path: '/sidebar',
-    name: 'sidebar',
-    component: SideBar
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    component: AdminLayout
   }
-
-
 ];
 
 const router = createRouter({
