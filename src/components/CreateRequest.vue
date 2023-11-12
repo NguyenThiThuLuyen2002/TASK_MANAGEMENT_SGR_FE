@@ -13,7 +13,7 @@
             <input v-model="deadline" type="text" class="border border-2 rounded-md p-2 w-full" />
         </div>
 
-        
+
 
         <!-- Status -->
         <div class="mb-4">
@@ -46,7 +46,8 @@
             </div>
             <div>
                 <!-- Nút Cancel  -->
-                <button @click = "this.$router.push({name: 'requestList'})" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-4">
+                <button @click="this.$router.push({ name: 'requestList' })"
+                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-4">
                     Cancel
                 </button>
                 <!-- Nút Submit  -->
@@ -59,6 +60,10 @@
 </template>
   
 <script>
+import axios from 'axios';
+// import jwt from 'jsonwebtoken';
+// import jwt_decode from 'jwt-decode';
+
 export default {
     data() {
         return {
@@ -69,32 +74,36 @@ export default {
         };
     },
     methods: {
+
         handleFileUpload(event) {
             const file = event.target.files[0]; // Lấy tệp được chọn
 
             if (file) {
-                // Xử lý tệp ở đây, ví dụ: tải lên máy chủ, hiển thị tên tệp, v.v.
                 console.log("Selected file:", file.name);
 
-                // Bạn có thể gửi tệp này lên máy chủ hoặc thực hiện xử lý khác theo nhu cầu của bạn.
             }
         },
+       
         submitForm() {
-            if (this.title && this.deadline && this.status && this.description ) {
-                // Xử lý khi tất cả trường thông tin được điền đầy đủ
-                console.log("Form submitted");
-                alert("submitted!");
+            if (this.title && this.deadline && this.status && this.description) {
+
                 let request = {
                     title: this.title,
                     deadline: this.deadline,
                     status: this.status,
                     description: this.description,
 
-
-
                 };
 
                 console.log(request)
+                axios.post("http://127.0.0.1:3001/task", request
+                    
+                )
+                    .then(response => {
+                        console.log('response:', response.data)
+                    })
+
+
                 // axios.post("api", request)
                 //     .then(response => {
                 //         console.log('Response:', response.data);
@@ -102,7 +111,9 @@ export default {
                 //     })
                 //     .catch(error => {
                 //         console.error('Error:', error);
-                    // });
+                // });
+
+                alert("submitted!");
             } else {
                 alert("Vui lòng điền đầy đủ thông tin bắt buộc.");
 
@@ -116,7 +127,7 @@ export default {
             this.description = "";
 
         },
-       
+
     },
 };
 </script>
