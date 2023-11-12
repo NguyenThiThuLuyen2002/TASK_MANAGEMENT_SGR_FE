@@ -6,6 +6,9 @@ import ItemDetail from '../components/listView/ItemDetail.vue'
 import Register from '../components/form/Register.vue'
 import RequestList from '../components/listView/RequestList.vue'
 import Editor from '../components/form/Editor.vue'
+import axios from 'axios'
+import SideBar from '../components/SideBar.vue'
+import AdminLayout from '../layout/AdminLayout.vue'
 const routes = [
   {
     path: '/login',
@@ -20,7 +23,8 @@ const routes = [
   {
     path: '/itemDetail/:id',
     name: 'itemDetail',
-    component: ItemDetail
+    component: ItemDetail,
+    props: true
   },
   {
     path: '/register',
@@ -37,6 +41,17 @@ const routes = [
     name: 'editor',
     component: Editor
   },
+  {
+    path: '/sidebar',
+    name: 'sidebar',
+    component: SideBar
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: AdminLayout
+  }
+
 
 ];
 
