@@ -10,7 +10,7 @@
         <!-- Title -->
         <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700">Deadline<span class="text-red-500">*</span></label>
-            <input v-model="deadline" type="text" class="border border-2 rounded-md p-2 w-full" />
+            <input v-model="deadline" type="date" class="border border-2 rounded-md p-2 w-full" />
         </div>
 
 
@@ -32,7 +32,7 @@
         </div>
         <!-- File Upload -->
         <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Upload File<span class="text-red-500">*</span></label>
+            <label class="block text-sm font-medium text-gray-700">Upload File</label>
             <input type="file" @change="handleFileUpload" class="block w-full p-2 border rounded-md" />
         </div>
 
@@ -60,73 +60,83 @@
 </template>
   
 <script>
-import axios from 'axios';
-// import jwt from 'jsonwebtoken';
-// import jwt_decode from 'jwt-decode';
 
+import axios from 'axios';
 export default {
     data() {
         return {
-            subject: "abc",
+            title: "title1",
+            deadline: "2023-12-21",
             status: "Open",
-            description: "abc",
-
+            description: "",
+            file: null, //  a property to store the selected file
         };
     },
     methods: {
-
         handleFileUpload(event) {
-            const file = event.target.files[0]; // Lấy tệp được chọn
-
-            if (file) {
-                console.log("Selected file:", file.name);
-
+            this.file = event.target.files[0];
+            if (this.file) {
+                console.log("Selected file:", this.file.name);
             }
         },
-       
-        submitForm() {
+        async submitForm() {
             if (this.title && this.deadline && this.status && this.description) {
+                try {
+                    // // Create a FormData object to send files
+                    let formData = new FormData();
+                    formData.append("data", this.file);
 
-                let request = {
-                    title: this.title,
-                    deadline: this.deadline,
-                    status: this.status,
-                    description: this.description,
+                    // Upload the file and get the URL from the API
+                    const uploadResponse = await axios.post("http://127.0.0.1:3001/auth/upload", formData, {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    });
+                    console.log(uploadResponse)
 
-                };
+                    // Use the obtained URL in your request object
+                    let request = {
+                        title: this.title,
+                        deadline: this.deadline,
+                        status: this.status,
+                        description: this.description,
+                        fileUrl: uploadResponse.data.response.Location,
+                    };
 
-                console.log(request)
-                axios.post("http://127.0.0.1:3001/task", request
-                    
-                )
-                    .then(response => {
-                        console.log('response:', response.data)
-                    })
+                    let jwt =   localStorage.getItem('accessToken') 
+                    jwt = "Bearer " + jwt
+                    console.log(jwt)
 
-
-                // axios.post("api", request)
-                //     .then(response => {
-                //         console.log('Response:', response.data);
-                //         this.$router.push({name: 'itemDetail', params: {id: response.data.id}})
-                //     })
-                //     .catch(error => {
-                //         console.error('Error:', error);
-                // });
-
-                alert("submitted!");
-            } else {
-                alert("Vui lòng điền đầy đủ thông tin bắt buộc.");
-
+                    // // Post the request to your API
+                    const response = await axios.post("http://127.0.0.1:3001/task", request, {
+                        headers: {
+                            Authorization: jwt
+                        },
+            });
+            console.log(response)
+            try {
+                if (response)
+                    this.$router.push({ name: "itemDetail", params: { id: response.data.ID } });
+            } catch (err) {
+                console.error('Error:', err);
             }
-        },
-        refreshForm() {
-            // Đặt lại giá trị của tất cả các trường về giá trị mặc định hoặc trống
-            this.title = "";
-            this.deadline = "";
-            this.status = "Open";
-            this.description = "";
 
-        },
+
+        } catch(error) {
+            console.error("Error:", error);
+        }
+    } else {
+        alert("Please fill in all required information.");
+    }
+},
+refreshForm() {
+    // Đặt lại giá trị của tất cả các trường về giá trị mặc định hoặc trống
+    this.title = "";
+    this.deadline = "";
+    this.status = "Open";
+    this.description = "";
+
+},
 
     },
 };
