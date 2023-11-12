@@ -43,14 +43,11 @@
                                     required="" v-model="name">
                             </div>
                             <div>
-                                <label for="age"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Age</label>
-                                <select name="age" id="age"
+                                <label for="birthday"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthday</label>
+                                <input type="date" name="birthday" id="birthday"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    required="" v-model="age">
-                                    <option value="" disabled selected>Select your age</option>
-                                    <option v-for="ageOpt in ageOptions" :key="ageOpt" :value="ageOpt">{{ ageOpt }}</option>
-                                </select>
+                                    required="" v-model="birthday">
 
                             </div>
                             <div>

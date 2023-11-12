@@ -14,10 +14,12 @@ const login = () => {
         password: password.value
     })
         .then((response) => {
+
             if (response.data.token) {
                 localStorage.setItem('accessToken', JSON.stringify(response.data.token))
                 router.push({ name: 'requestList' });
             }
+            console.log(response.data.role);
         }).catch((error) => {
             if (error.response) {
                 notify({
