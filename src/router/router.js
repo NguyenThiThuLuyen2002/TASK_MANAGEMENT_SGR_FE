@@ -5,6 +5,7 @@ import CreateRequest from '../components/CreateRequest.vue'
 import ItemDetail from '../components/listView/ItemDetail.vue'
 import Register from '../components/form/Register.vue'
 import RequestList from '../components/listView/RequestList.vue'
+import RequestListUser from '../components/listView/RequestListUser.vue'
 import Editor from '../components/form/Editor.vue'
 import axios from 'axios'
 import SideBar from '../components/SideBar.vue'
@@ -39,6 +40,11 @@ const routes = [
     component: RequestList
   },
   {
+    path: '/requestListUser',
+    name: 'requestListUser',
+    component: RequestListUser
+  },
+  {
     path: '/editor',
     name: 'editor',
     component: Editor
@@ -66,6 +72,9 @@ router.beforeEach((to, from) => {
   }
   if (to.name === 'login' && localStorage.getItem('accessToken')) {
     router.push({ name: 'requestList' });
+  }
+  if (to.name === 'login' && localStorage.getItem('accessToken')) {
+    router.push({ name: 'requestListUser' });
   }
   if (to.name === 'register' && localStorage.getItem('accessToken')) {
     router.push({ name: 'requestList' });

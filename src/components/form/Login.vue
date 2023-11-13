@@ -8,6 +8,19 @@ const password = ref('')
 const router = useRouter()
 const URL = 'http://localhost:3001/auth/login'
 
+import { jwtDecode } from 'jwt-decode'
+
+const decodeToken = () => {
+    let token = localStorage.getItem('accessToken')
+    console.log(token)
+    if (token) {
+        let decoded = jwtDecode(token)
+        console.log(decoded)
+        return decoded.role
+    }
+    return null
+}
+
 const login = () => {
     axios.post(URL, {
         username: username.value,
@@ -17,7 +30,11 @@ const login = () => {
 
             if (response.data.token) {
                 localStorage.setItem('accessToken', JSON.stringify(response.data.token))
-                router.push({ name: 'requestList' });
+                let role = decodeToken()
+                if (role === 2)
+                    router.push({ name: 'requestList' });
+                if (role === 3)
+                    router.push({ name: 'requestListUser' });
             }
             console.log(response.data.role);
         }).catch((error) => {
@@ -30,6 +47,7 @@ const login = () => {
             }
         })
 }
+
 
 </script>
 <template>
