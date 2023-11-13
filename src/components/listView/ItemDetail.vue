@@ -21,8 +21,6 @@ export default {
     const auth = useAuthStore()
     const route = useRoute()
     const selectedItem = computed(() => store.itemDetail)
-    // const replies = computed(() => store.replyMessages);
-    // console.log(replies)
     console.log(selectedItem)
 
     axios.get(`http://localhost:3001/task/${route.params.id}`)
@@ -49,7 +47,6 @@ export default {
       });
 
 
-
     return {
       store,
       auth,
@@ -73,28 +70,45 @@ export default {
     },
     handleReplyMessage(message) {
       console.log("Message received from Editor:", message);
-      axios.post(`http://localhost:3001/task/${this.route.params.id}/comment`, {
-        content: message,
-      }
-      ).then(response => {
-        console.log(response.data)
-        this.replies.push(response.data)
-      })
+      const token = localStorage.getItem('accessToken').substring(1, localStorage.getItem('accessToken').length - 1)
+
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      };
+      console.log("config", config)
+      const data = {
+        content: message
+      };
+      axios.post(`http://localhost:3001/task/${this.route.params.id}/comment`, data, config)
+        .then(response => {
+          console.log(response.data);
+          this.getReplyMessage();
+        })
         .catch(error => {
           console.error('Error fetching data:', error);
+        })
+        .finally(() => {
+          // Toggle button status should only be changed after the request is completed
+          this.toggleButton = !this.toggleButton;
         });
-      this.toggleButton = !this.toggleButton
     },
-    getReplyMessage() {
+    async getReplyMessage() {
+      try {
+        const response = await axios.get(`http://localhost:3001/task/${this.route.params.id}/comment`);
+        console.log(response.data)
+        this.replies = response.data || []; // Fallback to an empty array if response.data is falsy
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
 
     },
 
   },
   mounted() {
-    // this.getReplyMessage()
-    console.log("mounted")
-    const store = useItemDetail();
-    this.replies = store.replyMessages;
+    this.getReplyMessage()
+
   }
 
 };
@@ -108,12 +122,13 @@ export default {
       <MainMessage :selectedItem="selectedItem" />
       <div>
         <hr>
-        <div v-for="htmlText in text" v-html="htmlText"></div>
       </div>
-      <div v-for="(reply,index) in replies" :key="index">
-        <ReplyMessage :reply="reply[index]" />
-        <p>{{ reply }}</p>
+      <div class=" max-h-[280px] overflow-auto">
+        <div v-for="(reply, index) in replies" :key="index">
+          <ReplyMessage :reply="reply" />
+        </div>
       </div>
+
       <!--reply button-->
       <div class="mt-10">
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full" v-if="toggleButton"
