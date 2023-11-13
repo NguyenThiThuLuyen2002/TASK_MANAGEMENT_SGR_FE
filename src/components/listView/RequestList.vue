@@ -27,7 +27,7 @@
 
   <!--request list-->
   <div>
-    <Item v-for="(item, index) in listItems" :key="index" :title="item.title" :sender="item.postedBy"
+    <Item v-for="(item, index) in listItems" :key="index" :id=" item.ID" :title="item.title" :sender="item.postedBy"
       :time="item.createdAt" :avatar="item.avatar" :status="item.status" @click="selectItem(item)" />
   </div>
   </div>
@@ -58,8 +58,7 @@ export default {
   methods: {
     selectItem(item) {
       this.store.itemDetail = item
-
-      this.$router.push({ name: 'itemDetail', params: { id: item.id } })
+      this.$router.push({ name: 'itemDetail', params: { id: item.ID } })
     },
     createItem() {
       this.$router.push({ name: 'create' })
