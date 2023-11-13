@@ -84,9 +84,8 @@ export default {
             if (this.title && this.deadline && this.status && this.description) {
                 try {
                     //get token 
-                    let jwt = localStorage.getItem('accessToken');
-                    jwt = "Bearer " + jwt;
-
+                    let jwt = "Bearer " + localStorage.getItem('accessToken').substring(1, localStorage.getItem('accessToken').length - 1);
+                    console.log(jwt);
                     let requestTask = {
                         title: this.title,
                         deadline: this.deadline,

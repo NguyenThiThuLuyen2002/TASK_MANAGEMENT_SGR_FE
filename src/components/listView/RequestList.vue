@@ -28,7 +28,7 @@
   <!--request list-->
   <div>
     <Item v-for="(item, index) in listItems" :key="index" :id=" item.ID" :title="item.title" :sender="item.postedBy"
-      :time="item.createdAt" :avatar="item.avatar" :status="item.status" @click="selectItem(item)" />
+      :time="item.createdAt" :profilePicture="item.profilePicture" :status="item.status" @click="selectItem(item)" />
   </div>
   </div>
  
@@ -42,6 +42,7 @@
 import Item from './RequestItem.vue';
 import { useItemDetail } from '../../stores/itemDetail'
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode'
 export default {
   components: {
     Item,
@@ -66,7 +67,17 @@ export default {
     },
     createItem() {
       this.$router.push({ name: 'create' })
+    },
+   decodeToken()  {
+    let token = localStorage.getItem('accessToken')
+    console.log(token) 
+    if (token) {
+        let decoded = jwtDecode(token)
+        console.log(decoded)
+        return decoded.role
     }
+    return null
+}
   },
 
   created() {
@@ -80,7 +91,7 @@ export default {
       .catch(error => {
         console.log(error)
       })
-
+      this.decodeToken()
   }
 };
 </script>

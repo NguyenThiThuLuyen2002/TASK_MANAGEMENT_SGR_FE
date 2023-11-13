@@ -5,7 +5,7 @@
             <input type="checkbox" class="mr-4" />
 
             <!-- Avatar -->
-            <img src="/avts/1.png" alt="Avatar" class="w-12 h-12 rounded-full object-cover" />
+            <img :src="profilePicture" alt="Avatar" class="w-12 h-12 rounded-full object-cover" />
 
             <!-- Title, Sender, Time -->
             <div class="ml-4">
@@ -34,7 +34,7 @@ export default {
         title: String,
         sender: String,
         time: String,
-        avatar: String,
+        profilePicture: String,
         status: String,
         
     },

@@ -30,6 +30,7 @@ const login = () => {
             }
         })
 }
+
 </script>
 <template>
     <div class="form-login">

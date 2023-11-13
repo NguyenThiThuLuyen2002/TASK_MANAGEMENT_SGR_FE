@@ -21,6 +21,8 @@ export default {
     const auth = useAuthStore()
     const route = useRoute()
     const selectedItem = computed(() => store.itemDetail)
+    // const replies = computed(() => store.replyMessages);
+    // console.log(replies)
     console.log(selectedItem)
 
     axios.get(`http://localhost:3001/task/${route.params.id}`)
@@ -36,18 +38,31 @@ export default {
       .catch(error => {
         console.error('Error fetching data:', error);
       });
+
+    axios.get(`http://localhost:3001/task/${route.params.id}/comment`)
+      .then(response => {
+        store.replyMessages = response.data
+        console.log("reply mess", store.replyMessages)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+
+
+
     return {
       store,
       auth,
       route,
       selectedItem,
-      text : '',
+      text: '',
+
     }
+
   },
   data() {
     return {
       toggleButton: true,
-
       replies: [],
     }
   },
@@ -61,12 +76,28 @@ export default {
       axios.post(`http://localhost:3001/task/${this.route.params.id}/comment`, {
         content: message,
       }
-      )
+      ).then(response => {
+        console.log(response.data)
+        this.replies.push(response.data)
+      })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
       this.toggleButton = !this.toggleButton
     },
+    getReplyMessage() {
 
-    }
-  };
+    },
+
+  },
+  mounted() {
+    // this.getReplyMessage()
+    console.log("mounted")
+    const store = useItemDetail();
+    this.replies = store.replyMessages;
+  }
+
+};
 </script>
 <template>
   <div class=" w-full h-screen box-border flex ">
@@ -79,8 +110,9 @@ export default {
         <hr>
         <div v-for="htmlText in text" v-html="htmlText"></div>
       </div>
-      <div v-for="item in replies" :key="item.replyMessage">
-        <ReplyMessage :selectedItem="item" />
+      <div v-for="(reply,index) in replies" :key="index">
+        <ReplyMessage :reply="reply[index]" />
+        <p>{{ reply }}</p>
       </div>
       <!--reply button-->
       <div class="mt-10">
