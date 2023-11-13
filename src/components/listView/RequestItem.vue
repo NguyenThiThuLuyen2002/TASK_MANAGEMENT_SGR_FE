@@ -5,7 +5,7 @@
             <input type="checkbox" class="mr-4" />
 
             <!-- Avatar -->
-            <img :src="avatar" alt="Avatar" class="w-12 h-12 rounded-lg object-cover" />
+            <img src="/avts/1.png" alt="Avatar" class="w-12 h-12 rounded-full object-cover" />
 
             <!-- Title, Sender, Time -->
             <div class="ml-4">
@@ -13,7 +13,7 @@
                 <div class="text-gray-600 flex">
                     <span class="text-gray-500 text-sm ml-2">{{ sender }}</span>
 
-                    <span class="text-gray-500 text-sm ml-2"> .Time: {{ time }}</span>
+                    <span class="text-gray-500 text-sm ml-2"> Time: {{ time }}</span>
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
         <div class="text-left  w-1/5">
             <!-- Trạng thái -->
 
-            <p class="text-gray-500 text-sm">status: {{ status }}</p>
+            <p class="text-gray-500 text-sm">Status: <span class="text-green"> {{ status }}</span> </p>
 
 
         </div>
