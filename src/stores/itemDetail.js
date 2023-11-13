@@ -11,6 +11,7 @@ export const useItemDetail = defineStore('itemDetail', {
             status: '',
         },
         replyMessages: [],
+
     }),
     actions: {
         setItemDetail(data) {

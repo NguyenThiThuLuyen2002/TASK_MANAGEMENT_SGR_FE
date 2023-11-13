@@ -5,7 +5,7 @@ import { useAuthStore } from '../../stores/auth'
 import Editor from '../form/Editor.vue'
 import ReplyMessage from '../replyMessage.vue';
 import axios from 'axios';
-import { computed } from 'vue'
+import { computed,onMounted } from 'vue'
 import SideBar from '../SideBar.vue'
 import MainMessage from '../MainMessage.vue'
 export default {
@@ -21,8 +21,6 @@ export default {
     const auth = useAuthStore()
     const route = useRoute()
     const selectedItem = computed(() => store.itemDetail)
-    console.log(selectedItem)
-
     axios.get(`http://localhost:3001/task/${route.params.id}`)
       .then(response => {
         console.log(response.data[0])
@@ -39,8 +37,8 @@ export default {
 
     axios.get(`http://localhost:3001/task/${route.params.id}/comment`)
       .then(response => {
-        store.replyMessages = response.data
-        console.log("reply mess", store.replyMessages)
+        const replyMessages = response.data
+        console.log("reply mess", replyMessages)
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -52,8 +50,7 @@ export default {
       auth,
       route,
       selectedItem,
-      text: '',
-
+      
     }
 
   },
@@ -61,6 +58,7 @@ export default {
     return {
       toggleButton: true,
       replies: [],
+      attachments : [],
     }
   },
 
@@ -104,10 +102,20 @@ export default {
       }
 
     },
+    async getAttachments(){
+      try {
+        const response = await axios.get(`http://localhost:3001/task/${this.route.params.id}/attachment`);
+        console.log(response.data)
+        this.attachments = response.data || []; // Fallback to an empty array if response.data is falsy
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    },
 
   },
   mounted() {
     this.getReplyMessage()
+    this.getAttachments()
 
   }
 
@@ -119,7 +127,7 @@ export default {
     <div class="w-full pl-6 mx-auto pt-10 h-full overflow-auto">
       <h1 class="text-2xl font-semibold mb-4">{{ selectedItem.title }} </h1>
       <!-- info -->
-      <MainMessage :selectedItem="selectedItem" />
+      <MainMessage :selectedItem="selectedItem" :attachments="attachments"/>
       <div>
         <hr>
       </div>

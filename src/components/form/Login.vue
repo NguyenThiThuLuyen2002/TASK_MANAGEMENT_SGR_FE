@@ -31,7 +31,7 @@ const login = () => {
             if (response.data.token) {
                 localStorage.setItem('accessToken', JSON.stringify(response.data.token))
                 let role = decodeToken()
-                if (role === 2)
+                if (role === 1||role === 2)
                     router.push({ name: 'requestList' });
                 if (role === 3)
                     router.push({ name: 'requestListUser' });
