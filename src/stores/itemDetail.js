@@ -7,7 +7,7 @@ export const useItemDetail = defineStore('itemDetail', {
             title: '',
             postedBy: '',
             createdAt: '',
-            avatar: '',
+            profilePicture: '',
             status: '',
         },
         replyMessages: [],

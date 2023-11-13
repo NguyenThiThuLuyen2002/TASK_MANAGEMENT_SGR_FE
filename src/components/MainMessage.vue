@@ -2,21 +2,20 @@
     <div>
       <div class="info flex">
         <!--avatar-->
-        <img :src="selectedItem.avatar" alt="" class="h-12 w-12 rounded-full mr-2">
+        <img :src="selectedItem.profilePicture" alt="" class="h-12 w-12 rounded-full mr-2">
         <div>
           <div>
-            <h2 class="text-lg font-semibold">From: {{ selectedItem.postedBy }}</h2>
-            <p class="text-gray-500 text-sm">To: (Email)</p>
+            <h2 class="text-lg font-semibold">{{ selectedItem.postedBy }}</h2>
+
           </div>
         </div>
       </div>
       <!-- message -->
       <div class="mt-10 h-auto mb-5">
-        (Message)
         {{ selectedItem.description }}
       </div>
       <!--Attachments-->
-      <div>
+      <!-- <div>
         <ul>
           <li class="flex items-center justify-between py-4  pr-5 text-sm leading-6"
             v-for="attachment in selectedItem.attachments">
@@ -37,7 +36,7 @@
           </li>
   
         </ul>
-      </div>
+      </div> -->
     </div>
   </template>
   <script>

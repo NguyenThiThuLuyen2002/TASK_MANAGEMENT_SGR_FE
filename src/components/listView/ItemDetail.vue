@@ -73,28 +73,52 @@ export default {
     },
     handleReplyMessage(message) {
       console.log("Message received from Editor:", message);
-      axios.post(`http://localhost:3001/task/${this.route.params.id}/comment`, {
-        content: message,
-      }
-      ).then(response => {
-        console.log(response.data)
-        this.replies.push(response.data)
-      })
+      const token = localStorage.getItem('accessToken').substring(1, localStorage.getItem('accessToken').length - 1)
+      // Configure the request headers outside of the post call for clarity
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`// Assuming Bearer token authentication
+        },
+      };
+      console.log("config", config)
+      // The content should be part of the request body, not the headers
+      const data = {
+        content: message
+      };
+      axios.post(`http://localhost:3001/task/${this.route.params.id}/comment`, data, config)
+        .then(response => {
+          console.log(response.data);
+          this.replies.push(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        })
+        .finally(() => {
+          // Toggle button status should only be changed after the request is completed
+          this.toggleButton = !this.toggleButton;
+        });
+    },
+    getReplyMessage() {
+      axios.get(`http://localhost:3001/task/${this.route.params.id}/comment`)
+        .then(response => {
+          console.log(response.data)
+          if (response.data) {
+            this.replies = response.data;
+          } else {
+            console.error('Empty response from the server');
+          }
+        })
         .catch(error => {
           console.error('Error fetching data:', error);
         });
-      this.toggleButton = !this.toggleButton
-    },
-    getReplyMessage() {
-
     },
 
   },
   mounted() {
-    // this.getReplyMessage()
-    console.log("mounted")
-    const store = useItemDetail();
-    this.replies = store.replyMessages;
+    this.getReplyMessage()
+    // console.log("mounted")
+    // const store = useItemDetail();
+    // this.replies = store.replyMessages;
   }
 
 };
@@ -108,12 +132,13 @@ export default {
       <MainMessage :selectedItem="selectedItem" />
       <div>
         <hr>
-        <div v-for="htmlText in text" v-html="htmlText"></div>
       </div>
-      <div v-for="(reply,index) in replies" :key="index">
-        <ReplyMessage :reply="reply[index]" />
-        <p>{{ reply }}</p>
+      <div class=" max-h-[280px] overflow-auto">
+        <div v-for="(reply, index) in replies" :key="index" >
+        <ReplyMessage :reply="reply" />
       </div>
+      </div>
+     
       <!--reply button-->
       <div class="mt-10">
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full" v-if="toggleButton"

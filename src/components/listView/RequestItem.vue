@@ -3,10 +3,8 @@
         <div class="flex items-center w-4/5">
             <!-- Checkbox -->
             <input type="checkbox" class="mr-4" />
-
             <!-- Avatar -->
             <img :src="profilePicture" alt="Avatar" class="w-12 h-12 rounded-full object-cover" />
-
             <!-- Title, Sender, Time -->
             <div class="ml-4">
                 <h2 class="text-lg font-semibold">{{ title }}</h2>
