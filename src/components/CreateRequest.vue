@@ -79,64 +79,94 @@ export default {
                 console.log("Selected file:", this.file.name);
             }
         },
+
         async submitForm() {
             if (this.title && this.deadline && this.status && this.description) {
                 try {
-                    // // Create a FormData object to send files
-                    let formData = new FormData();
-                    formData.append("data", this.file);
+                    //get token 
+                    let jwt = localStorage.getItem('accessToken');
+                    jwt = "Bearer " + jwt;
 
-                    // Upload the file and get the URL from the API
-                    const uploadResponse = await axios.post("http://127.0.0.1:3001/auth/upload", formData, {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                        },
-                    });
-                    console.log(uploadResponse)
-
-                    // Use the obtained URL in your request object
-                    let request = {
+                    let requestTask = {
                         title: this.title,
                         deadline: this.deadline,
                         status: this.status,
                         description: this.description,
-                        fileUrl: uploadResponse.data.response.Location,
-                    };
+                    }
+                    // 1: Post task
 
-                    let jwt =   localStorage.getItem('accessToken') 
-                    jwt = "Bearer " + jwt
-                    console.log(jwt)
-
-                    // // Post the request to your API
-                    const response = await axios.post("http://127.0.0.1:3001/task", request, {
+                    const responseTask = await axios.post("http://127.0.0.1:3001/task", requestTask, {
                         headers: {
                             Authorization: jwt
                         },
-            });
-            console.log(response)
-            try {
-                if (response)
-                    this.$router.push({ name: "itemDetail", params: { id: response.data.ID } });
-            } catch (err) {
-                console.error('Error:', err);
+                    });
+
+                    
+
+
+                    // 2: Post attachment if it has file
+                    if (this.file) {
+                        // Create a FormData object to send files
+                        let formData = new FormData();
+                        formData.append("data", this.file);
+
+                        // Upload the file to S3 and get the URL 
+                        const uploadResponse = await axios.post("http://127.0.0.1:3001/auth/upload", formData, {
+                            headers: {
+                                "Content-Type": "multipart/form-data",
+                            },
+                        });
+                        let url = uploadResponse.data.response.Location
+
+                        let attachmentData = {
+                            name: this.file.name,
+                            path: url,
+                            type: "pdf",
+                            size: 1,
+                        }
+                        let id = responseTask.data.ID
+
+                        try {
+                            // Post attachment
+                            const postattachmentResponse = await axios.post("http://127.0.0.1:3001/task/" + id + "/attachment", attachmentData, {
+                                headers: {
+                                    Authorization: jwt
+                                },
+                            });
+
+                            console.log(postattachmentResponse);
+                        } catch (error) {
+                            console.error("Error:", error);
+                        }
+
+                    }
+                    alert("Submitted successfully!");
+
+                    // Redirect to the itemDetail page
+                    try {
+                        if (responseTask)
+                            this.$router.push({ name: "itemDetail", params: { id: responseTask.data.ID } });
+                    } catch (error) {
+                        console.log("error:", error)
+                    }
+
+
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            } else {
+                alert("Please fill in all required information.");
             }
+        },
 
+        refreshForm() {
+            // Đặt lại giá trị của tất cả các trường về giá trị mặc định hoặc trống
+            this.title = "";
+            this.deadline = "";
+            this.status = "Open";
+            this.description = "";
 
-        } catch(error) {
-            console.error("Error:", error);
-        }
-    } else {
-        alert("Please fill in all required information.");
-    }
-},
-refreshForm() {
-    // Đặt lại giá trị của tất cả các trường về giá trị mặc định hoặc trống
-    this.title = "";
-    this.deadline = "";
-    this.status = "Open";
-    this.description = "";
-
-},
+        },
 
     },
 };
