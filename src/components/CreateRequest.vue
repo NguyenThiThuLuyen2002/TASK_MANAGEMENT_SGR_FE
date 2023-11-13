@@ -1,23 +1,24 @@
 <template>
-    <div class="container mx-auto p-6 w-4/5 ">
+    <div class="container mx-auto p-6 w-3/5 ">
         <h1 class="text-4xl font-semibold mb-4">Create request</h1>
 
         <!-- Title -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Title<span class="text-red-500">*</span></label>
-            <input v-model="title" type="text" class="border border-2 rounded-md p-2 w-full" />
+        <div class="mb-5">
+            <label class="block mb-2  text-sm font-medium text-gray-700">Title<span class="text-red-500">*</span></label>
+            <input v-model="title" type="text" class="block p-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
         </div>
-        <!-- Title -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Deadline<span class="text-red-500">*</span></label>
-            <input v-model="deadline" type="date" class="border border-2 rounded-md p-2 w-full" />
+        <!-- Deadline -->
+        <div class="mb-5">
+            <label class="block mb-2 text-sm font-medium text-gray-700">Deadline<span class="text-red-500">*</span></label>
+            <input v-model="deadline" type="date" @input="checkDeadline" class="block p-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <p v-if="errorMessage" class="italic text-red-500">{{ errorMessage }}</p>
         </div>
 
 
 
         <!-- Status -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Status<span class="text-red-500">*</span></label>
+        <div class="mb-5">
+            <label class="block mb-2 text-sm font-medium text-gray-700">Status<span class="text-red-500">*</span></label>
             <select v-model="status" class="border-2 rounded-md p-2 w-full cursor-not-allowed bg-gray-200" disabled>
                 <option value="Open">Open</option>
                 <option value="In Progress">In Progress</option>
@@ -26,14 +27,15 @@
         </div>
 
         <!-- Description -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Description<span class="text-red-500">*</span></label>
-            <textarea v-model="description" class="border-2 rounded-md p-2 w-full h-32"></textarea>
+        <div class="mb-5">
+            <label class="block mb-2 text-sm font-medium text-gray-700">Description<span class="text-red-500">*</span></label>
+            <textarea v-model="description"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
         </div>
         <!-- File Upload -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Upload File</label>
-            <input type="file" @change="handleFileUpload" class="block w-full p-2 border rounded-md" />
+        <div class="mb-5">
+            <label class="block text-sm mb-2 font-medium text-gray-700">Upload File</label>
+            <input type="file" @change="handleFileUpload" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" accept="application/pdf" />
         </div>
 
         <div class="flex justify-between items-center mt-8">
@@ -70,9 +72,21 @@ export default {
             status: "Open",
             description: "",
             file: null, //  a property to store the selected file
+            errorMessage: "",
         };
     },
     methods: {
+        checkDeadline() {
+            const currentDate = new Date();
+            const selectedDate = new Date(this.deadline);
+
+            if (selectedDate < currentDate) {
+                this.deadline = "";
+                this.errorMessage = "Deadline must be greater than the current date!";
+            } else {
+                this.errorMessage = ""; // Reset thông báo lỗi khi không có lỗi
+            }
+        },
         handleFileUpload(event) {
             this.file = event.target.files[0];
             if (this.file) {
@@ -84,8 +98,12 @@ export default {
             if (this.title && this.deadline && this.status && this.description) {
                 try {
                     //get token 
-                    let jwt = "Bearer " + localStorage.getItem('accessToken').substring(1, localStorage.getItem('accessToken').length - 1);
-                    console.log(jwt);
+                    let jwt = localStorage.getItem('accessToken')
+                    if (jwt.startsWith('"') && jwt.endsWith('"')) {
+                        jwt = jwt.substring(1, jwt.length - 1)
+                    }
+                    jwt = "Bearer " + jwt;
+
                     let requestTask = {
                         title: this.title,
                         deadline: this.deadline,
@@ -100,7 +118,7 @@ export default {
                         },
                     });
 
-                    
+
 
 
                     // 2: Post attachment if it has file
