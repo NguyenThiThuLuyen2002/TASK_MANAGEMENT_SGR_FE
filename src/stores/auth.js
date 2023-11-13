@@ -4,13 +4,7 @@ export const useAuthStore = defineStore({
     id: 'auth',
     state: () => ({
         user: JSON.parse(localStorage.getItem('user')) || {
-            username: 'nguyenvana',
-            name: 'Nguyen Van A',
-            email: 'nguyenvana@gmail.com',
-            birthday: '1999-01-01',
-            role: 'admin',
-            profilePicture: 'https://i.pinimg.com/originals/0f/6d/9e/0f6d9e0b5b0b0b0b0b0b0b0b0b0b0b0b.jpg',
-
+            
         },
     }),
     getters: {

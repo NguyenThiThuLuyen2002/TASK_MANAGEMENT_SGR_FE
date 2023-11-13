@@ -5,8 +5,8 @@ export const useItemDetail = defineStore('itemDetail', {
         itemDetail: {
             id: '',
             title: '',
-            sender: '',
-            time: '',
+            postedBy: '',
+            createdAt: '',
             avatar: '',
             status: '',
         }

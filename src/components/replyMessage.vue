@@ -1,19 +1,17 @@
 <template>
   <div>
-    <div class="info flex">
+    <div class="info flex mt-5">
       <!--avatar-->
       <img :src="selectedItem.avatar" alt="" class="h-12 w-12 rounded-full mr-2">
       <div>
         <div>
-          <h2 class="text-lg font-semibold">From: {{ selectedItem.sender }}</h2>
+          <h2 class="text-lg font-semibold">From: {{ selectedItem.postedBy }}</h2>
           <p class="text-gray-500 text-sm">To: (Email)</p>
         </div>
       </div>
     </div>
     <!-- message -->
-    <div class="mt-10 h-auto">
-      (Message)
-      {{ selectedItem.message }}
+    <div v-html="selectedItem.replyMessage" class="mt-10 h-auto">
     </div>
     <!--Attachments-->
     <div>
