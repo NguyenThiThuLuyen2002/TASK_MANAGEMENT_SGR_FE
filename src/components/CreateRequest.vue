@@ -103,7 +103,7 @@ export default {
                         fileUrl: uploadResponse.data.response.Location,
                     };
 
-                    let jwt =   localStorage.getItem('accessToken') 
+                    let jwt = localStorage.getItem('accessToken')
                     jwt = "Bearer " + jwt
                     console.log(jwt)
 
@@ -112,31 +112,31 @@ export default {
                         headers: {
                             Authorization: jwt
                         },
-            });
-            console.log(response)
-            try {
-                if (response)
-                    this.$router.push({ name: "itemDetail", params: { id: response.data.ID } });
-            } catch (err) {
-                console.error('Error:', err);
+                    });
+                    console.log(response)
+                    try {
+                        if (response)
+                            this.$router.push({ name: "itemDetail", params: { id: response.data.ID } });
+                    } catch (err) {
+                        console.error('Error:', err);
+                    }
+
+
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            } else {
+                alert("Please fill in all required information.");
             }
+        },
+        refreshForm() {
+            // Đặt lại giá trị của tất cả các trường về giá trị mặc định hoặc trống
+            this.title = "";
+            this.deadline = "";
+            this.status = "Open";
+            this.description = "";
 
-
-        } catch(error) {
-            console.error("Error:", error);
-        }
-    } else {
-        alert("Please fill in all required information.");
-    }
-},
-refreshForm() {
-    // Đặt lại giá trị của tất cả các trường về giá trị mặc định hoặc trống
-    this.title = "";
-    this.deadline = "";
-    this.status = "Open";
-    this.description = "";
-
-},
+        },
 
     },
 };

@@ -9,6 +9,8 @@ import Editor from '../components/form/Editor.vue'
 import axios from 'axios'
 import SideBar from '../components/SideBar.vue'
 import AdminLayout from '../layout/AdminLayout.vue'
+
+
 const routes = [
   {
     path: '/login',
@@ -45,7 +47,12 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: AdminLayout,
-  }
+  },
+  {
+    path: '/sidebar',
+    name: 'sidebar',
+    component: SideBar,
+  },
 ];
 
 const router = createRouter({
