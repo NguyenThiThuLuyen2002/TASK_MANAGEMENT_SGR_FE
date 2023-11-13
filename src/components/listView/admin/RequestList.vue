@@ -32,8 +32,8 @@
 }
 </style>
 <script>
-import Item from './RequestItem.vue';
-import { useItemDetail } from '../../stores/itemDetail'
+import Item from '../RequestItem.vue';
+import { useItemDetail } from '../../../stores/itemDetail';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode'
 export default {

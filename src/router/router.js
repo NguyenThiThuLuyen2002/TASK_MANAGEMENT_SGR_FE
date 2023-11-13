@@ -1,14 +1,14 @@
 // router.js
 import { createRouter, createWebHistory } from 'vue-router';
-import Login from '../components/form/Login.vue'
-import CreateRequest from '../components/CreateRequest.vue'
-import ItemDetail from '../components/listView/ItemDetail.vue'
-import Register from '../components/form/Register.vue'
-import RequestList from '../components/listView/RequestList.vue'
-import RequestListUser from '../components/listView/RequestListUser.vue'
 import Editor from '../components/form/Editor.vue'
 import axios from 'axios'
-import SideBar from '../components/SideBar.vue'
+import Login from '../components/form/Login.vue'
+import CreateRequest from '../components/listView/user/CreateRequest.vue'
+import RequestListUser from '../components/listView/user/RequestListUser.vue'
+import ItemDetail from '../components/listView/ItemDetail.vue'
+import Register from '../components/form/Register.vue'
+import RequestList from '../components/listView/admin/RequestList.vue'
+import SideBar from '../components/listView/admin/SideBar.vue'
 import AdminLayout from '../layout/AdminLayout.vue'
 
 

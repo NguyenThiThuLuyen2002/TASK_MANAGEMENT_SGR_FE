@@ -2,12 +2,13 @@
 import { useRoute } from 'vue-router'
 import { useItemDetail } from '../../stores/itemDetail'
 import { useAuthStore } from '../../stores/auth'
-import Editor from '../form/Editor.vue'
-import ReplyMessage from '../replyMessage.vue';
+import Editor from '../form/Editor.vue';
 import axios from 'axios';
 import { computed,onMounted } from 'vue'
-import SideBar from '../SideBar.vue'
-import MainMessage from '../MainMessage.vue'
+import SideBar from '../listView/admin/SideBar.vue'
+import MainMessage from '../listView/itemMessage/MainMessage.vue'
+import ReplyMessage from '../listView/itemMessage/ReplyMessage.vue'
+
 export default {
   components: {
     Editor,
@@ -43,8 +44,6 @@ export default {
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-
-
     return {
       store,
       auth,

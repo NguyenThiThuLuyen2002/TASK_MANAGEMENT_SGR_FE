@@ -7,7 +7,6 @@ const username = ref('')
 const password = ref('')
 const router = useRouter()
 const URL = 'http://localhost:3001/auth/login'
-
 import { jwtDecode } from 'jwt-decode'
 
 const decodeToken = () => {
@@ -20,6 +19,7 @@ const decodeToken = () => {
     }
     return null
 }
+
 
 const login = () => {
     axios.post(URL, {
@@ -35,6 +35,7 @@ const login = () => {
                     router.push({ name: 'requestList' });
                 if (role === 3)
                     router.push({ name: 'requestListUser' });
+       
             }
             console.log(response.data.role);
         }).catch((error) => {
