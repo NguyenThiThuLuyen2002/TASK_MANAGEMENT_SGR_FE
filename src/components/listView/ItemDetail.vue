@@ -141,14 +141,14 @@ export default {
 <template>
   <div class=" w-5/6 h-screen box-border flex ">
     <SideBar></SideBar>
-    <div class="w-full mx-auto pt-10 h-full overflow-auto pl-[18vw]" >
+    <div class="w-full mx-auto pt-10 h-full  pl-[18vw]" >
       <h1 class="text-2xl font-semibold mb-4">{{ selectedItem.title }} </h1>
       <!-- info -->
       <MainMessage :selectedItem="selectedItem" :attachments="attachments" />
       <div>
         <hr>
       </div>
-      <div class=" max-h-[280px] overflow-auto">
+      <div class=" max-h-[280px] overflow-auto" id="journal-scroll">
         <div v-for="(reply, index) in replies" :key="index">
           <ReplyMessage :reply="reply" />
         </div>
@@ -168,4 +168,21 @@ export default {
 
   </div>
 </template>
-  
+<style>
+ #journal-scroll::-webkit-scrollbar {
+            width: 4px;
+            cursor: pointer;
+            /*background-color: rgba(229, 231, 235, var(--bg-opacity));*/
+
+        }
+        #journal-scroll::-webkit-scrollbar-track {
+            background-color: rgba(229, 231, 235, var(--bg-opacity));
+            cursor: pointer;
+            /*background: red;*/
+        }
+        #journal-scroll::-webkit-scrollbar-thumb {
+            cursor: pointer;
+            background-color: #a0aec0;
+            /*outline: 1px solid slategrey;*/
+        }
+</style>
