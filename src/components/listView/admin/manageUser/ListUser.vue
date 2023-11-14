@@ -99,7 +99,7 @@ const createUser = () => {
                         <tbody class="text-gray-500">
                             <tr v-for="user in users" :key="user" class="border-b hover:bg-orange-100 ">
                                 <td class="p-3 px-5">
-                                    <router-link :to="{ name: 'userDetail', params: { id: user.ID } }">
+                                    <router-link  class="no-underline text-black bg-transparent" :to="{ name: 'userDetail', params: { id: user.ID } }">
                                         {{ user.username }}
                                     </router-link>
                                 </td>

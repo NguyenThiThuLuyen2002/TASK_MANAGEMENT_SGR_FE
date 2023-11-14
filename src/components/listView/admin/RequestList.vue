@@ -1,7 +1,7 @@
 <template>
   <div class="w-full pl-[18vw] box-border  ">
     <div>
-      <div class="flex justify-between align-center my-4 mx-auto w-5/6 box-border">
+      <div class="flex justify-between align-center my-4 mx-auto w-4/5 box-border">
         <!--search box-->
         <div>
           <div class="relative text-gray-600 ">
@@ -22,7 +22,7 @@
     <!--request list-->
     <div>
       <Item v-for="(item, index) in listItems" :key="index" :id="item.ID" :title="item.title" :sender="item.postedBy"
-        :time="item.createdAt" :profilePicture="item.profilePicture" :status="item.status" @click="selectItem(item)" />
+        :time="item.createdAt" :profilePicture="item.profilePicture" :status="item.status" @click="selectItem(item)" @delete-request="handleDeleteRequest"  /> 
     </div>
   </div>
 </template>
@@ -70,7 +70,14 @@ export default {
         return decoded.role
       }
       return null
-    }
+    },
+    handleDeleteRequest(id) {
+      this.listItems = this.listItems.filter(item => item.ID !== id);
+      console.log(this.listItems)
+    },
+    // handleSaveRequest(id) {
+    //   this.listItems = this.listItems.filter(item => item.ID !== id);
+    // }
   },
 
   created() {

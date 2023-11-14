@@ -4,6 +4,10 @@ import App from './App.vue'
 import router from './router/router.js'
 import { createPinia } from 'pinia'
 import Notifications from '@kyvg/vue3-notification'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 // check sidebar
 const app = createApp(App)
 const pinia = createPinia()

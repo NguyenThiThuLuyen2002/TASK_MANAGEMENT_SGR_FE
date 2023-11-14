@@ -121,7 +121,7 @@ export default {
 };
 </script>
 <template>
-  <div class=" w-full h-screen box-border flex ">
+  <div class=" w-5/6 h-screen box-border flex ">
     <SideBar></SideBar>
     <div class="w-full mx-auto pt-10 h-full overflow-auto pl-[18vw]" >
       <h1 class="text-2xl font-semibold mb-4">{{ selectedItem.title }} </h1>

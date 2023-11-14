@@ -1,12 +1,12 @@
 <script setup>
-import { reactive, shallowRef } from 'vue';
+import {ref} from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 
 import SideBar from '../SideBar.vue'
 const route = useRoute()
 const userId = route.params.id
-const selectedUser = shallowRef ({
+const selectedUser = ref ({
     username: '',
     password: '',
     name: '',
@@ -17,7 +17,9 @@ const selectedUser = shallowRef ({
 
 axios.get('http://localhost:3001/user/' + userId).then((res) => {
     console.log(res.data)
-    selectedUser.value = res.data
+    if (res.data.length > 0) {
+        selectedUser.value = res.data[0];
+    }
 
 })
 

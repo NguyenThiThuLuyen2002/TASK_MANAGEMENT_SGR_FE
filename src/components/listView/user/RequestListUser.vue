@@ -1,7 +1,7 @@
 <template>
     <div class="w-full pl-[18vw] box-border ">
         <div>
-            <div class="flex justify-between align-center my-4 mx-auto w-5/6 box-border">
+            <div class="flex justify-between align-center my-4 mx-auto w-4/5 box-border">
                 <!--search box-->
                 <div>
                     <div class="relative text-gray-600 ">

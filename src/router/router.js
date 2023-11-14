@@ -14,6 +14,7 @@ import ListUser from '../components/listView/admin/manageUser/ListUser.vue'
 import UserDetail from '../components/listView/admin/manageUser/UserDetail.vue'
 import UserLayout from '../layout/UserLayout.vue'
 import Profile from '../components/listView/user/Profile.vue'
+import testInput from '../components/form/testInput.vue'
 const routes = [
   {
     path: '/login',
@@ -95,6 +96,11 @@ const routes = [
   //   path: '/:pathMatch(.*)*',
   //   redirect: '/login'
   // }
+  ,{
+    path: '/testInput',
+    name: 'testInput',
+    component: testInput
+  }
 
 ];
 
