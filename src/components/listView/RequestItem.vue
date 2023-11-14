@@ -9,7 +9,7 @@
             <div class="ml-4">
                 <h2 class="text-lg font-semibold">{{ title }}</h2>
                 <div class="text-gray-600 flex">
-                    <span class="text-gray-500 text-sm ml-2">{{ sender }}</span>
+                    <span class="text-gray-500 text-sm mr-2">{{ sender }}</span>
 
                     <span class="text-gray-500 text-sm ml-2"> Time: {{ time }}</span>
                 </div>
@@ -19,7 +19,7 @@
         <div class="text-left  w-1/5">
             <!-- Trạng thái -->
 
-            <p class="text-gray-500 text-sm">Status: <span class="text-green"> {{ status }}</span> </p>
+            <p class="text-gray-500 text-sm">Status: <span class="text-green-500"> {{ status }}</span> </p>
 
 
         </div>

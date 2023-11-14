@@ -1,8 +1,8 @@
 
 <template>
+    <SideBarUser></SideBarUser>
     <div class="container mx-auto p-6 w-3/5 ">
-        <h1 class="text-4xl font-semibold mb-4">Create request</h1>
-
+        <h3 class="text-4xl font-semibold mb-4">Create Request</h3>
         <!-- Title -->
         <div class="mb-5">
             <label class="block mb-2  text-sm font-medium text-gray-700">Title<span class="text-red-500">*</span></label>
@@ -40,7 +40,7 @@
         <div class="mb-5">
             <label class="block text-sm mb-2 font-medium text-gray-700">Upload File</label>
             <input type="file" @change="handleFileUpload"
-                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 p-2"
                 accept="application/pdf" multiple />
         </div>
 
@@ -68,8 +68,8 @@
 </template>
  
 <script>
-
 import axios from 'axios';
+import SideBarUser from './SideBarUser.vue';
 export default {
     data() {
         return {
@@ -77,7 +77,7 @@ export default {
             deadline: "2023-12-21",
             status: "Open",
             description: "",
-            file: [], //  a property to store the selected file
+            file: [],
             errorMessage: "",
         };
     },
@@ -85,17 +85,16 @@ export default {
         checkDeadline() {
             const currentDate = new Date();
             const selectedDate = new Date(this.deadline);
-
             if (selectedDate < currentDate) {
                 this.deadline = "";
                 this.errorMessage = "Deadline must be greater than the current date!";
-            } else {
+            }
+            else {
                 this.errorMessage = ""; // Reset thông báo lỗi khi không có lỗi
             }
         },
         handleFileUpload(event) {
             this.files = event.target.files; // Get an array of selected files
-
             if (this.files.length > 0) {
                 // Process each file here
                 for (const file of this.files) {
@@ -103,57 +102,47 @@ export default {
                 }
             }
         },
-
         async submitForm() {
             if (this.title && this.deadline && this.status && this.description) {
                 try {
                     //get token
-                    let jwt = localStorage.getItem('accessToken')
+                    let jwt = localStorage.getItem('accessToken');
                     if (jwt.startsWith('"') && jwt.endsWith('"')) {
-                        jwt = jwt.substring(1, jwt.length - 1)
+                        jwt = jwt.substring(1, jwt.length - 1);
                     }
                     jwt = "Bearer " + jwt;
-
                     let requestTask = {
                         title: this.title,
                         deadline: this.deadline,
                         status: this.status,
                         description: this.description,
-                    }
+                    };
                     // 1: Post task
-
                     const responseTask = await axios.post("http://127.0.0.1:3001/task", requestTask, {
                         headers: {
                             Authorization: jwt
                         },
                     });
-
-
-                    let id = responseTask.data.ID
-
+                    let id = responseTask.data.ID;
                     // 2: Post attachment if it has file
                     if (this.files && this.files.length > 0) {
                         for (const file of this.files) {
                             // Create a FormData object to send files
                             let formData = new FormData();
                             formData.append("data", file);
-
                             // Upload the file to S3 and get the URL
                             const uploadResponse = await axios.post("http://127.0.0.1:3001/auth/upload", formData, {
                                 headers: {
                                     "Content-Type": "multipart/form-data",
                                 },
                             });
-                            let url = uploadResponse.data.response.Location
-
+                            let url = uploadResponse.data.response.Location;
                             let attachmentData = {
                                 name: file.name,
                                 path: url,
                                 type: "pdf",
                                 size: 1,
-                            }
-
-
+                            };
                             try {
                                 // Post attachment
                                 const postattachmentResponse = await axios.post("http://127.0.0.1:3001/task/" + id + "/attachment", attachmentData, {
@@ -161,42 +150,39 @@ export default {
                                         Authorization: jwt
                                     },
                                 });
-
                                 console.log(postattachmentResponse);
-                            } catch (error) {
+                            }
+                            catch (error) {
                                 console.error("Error:", error);
                             }
-
                         }
                     }
                     alert("Submitted successfully!");
-
                     // Redirect to the itemDetail page
                     try {
                         if (responseTask)
                             this.$router.push({ name: "itemDetail", params: { id: responseTask.data.ID } });
-                    } catch (error) {
-                        console.log("error:", error)
                     }
-
-
-                } catch (error) {
+                    catch (error) {
+                        console.log("error:", error);
+                    }
+                }
+                catch (error) {
                     console.error("Error:", error);
                 }
-            } else {
+            }
+            else {
                 alert("Please fill in all required information.");
             }
         },
-
         refreshForm() {
             // Đặt lại giá trị của tất cả các trường về giá trị mặc định hoặc trống
             this.title = "";
             this.deadline = "";
             this.status = "Open";
             this.description = "";
-
         },
-
     },
+    components: {  SideBarUser }
 };
 </script>

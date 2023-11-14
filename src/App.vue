@@ -5,5 +5,4 @@
 
   <notifications />
   <router-view/>
-
 </template>

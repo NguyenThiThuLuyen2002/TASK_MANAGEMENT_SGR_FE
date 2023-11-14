@@ -6,42 +6,42 @@ const logout = () => {
     router.push({ name: 'login' });
 }
 const handleRequestList = () => {
-    router.push({ name: 'admin' });
+    router.push({ name: 'userLayout' });
+}
+const handleProfile = () => {
+    router.push({ name: 'profile' });
 }
 </script>
 <template>
     <aside>
         <p>Management-Club</p>
         <a href="javascript:void(0)" @click="handleRequestList" class="item">
-            <img src="../assets/icons/home.svg" alt="" class="icon">
-            Home
+            <img src="../../../assets/icons/home.svg" alt="" class="icon">
+           <span>Home</span>
         </a>
         <a href="javascript:void(0) " class="item">
-            <img src="../assets/icons/inbox.svg" alt="" >
-            Inbox
+            <img src="../../../assets/icons/inbox.svg" alt="" >
+            <span>Inbox</span>
         </a>
-        <a href="javascript:void(0)" class="item">
-            <i class="fa fa-clone" aria-hidden="true"></i>
-            Shared with me
-        </a>
-        <a href="javascript:void(0)" class="item">
-            <i class="fa fa-star-o" aria-hidden="true"></i>
-            Starred
+        <a href="javascript:void(0)" class="item" @click="handleProfile">
+            <img src="../../../assets/icons/user.svg" alt="" >
+            <span>Profile</span>
         </a>
         <a href="javascript:void(0)" @click="logout" class="item">
-            <img src="../assets/icons/arrow_left.svg" alt="" class="icon">
-            Logout
+            <img src="../../../assets/icons/arrow_left.svg" alt="" class="icon">
+            <span>Logout</span>
         </a>
     </aside>
 </template>
 <style>
 aside {
     color: #fff;
-    width: 300px;
+    width: 16vw;
     padding-left: 20px;
     height: 100vh;
     background-image: linear-gradient(30deg, #0048bd, #44a7fd);
     border-top-right-radius: 80px;
+    position: fixed;
 }
 
 aside a {
@@ -117,7 +117,6 @@ body {
     width: 100%;
     height: 100vh;
     margin: 0;
-    position: relative;
 }
 
 .social {
@@ -136,4 +135,5 @@ body {
     top: 5px;
     right: 5px;
 }
+
 </style>

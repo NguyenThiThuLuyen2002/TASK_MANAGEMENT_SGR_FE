@@ -123,7 +123,7 @@ export default {
 <template>
   <div class=" w-full h-screen box-border flex ">
     <SideBar></SideBar>
-    <div class="w-full pl-6 mx-auto pt-10 h-full overflow-auto">
+    <div class="w-full mx-auto pt-10 h-full overflow-auto pl-[18vw]" >
       <h1 class="text-2xl font-semibold mb-4">{{ selectedItem.title }} </h1>
       <!-- info -->
       <MainMessage :selectedItem="selectedItem" :attachments="attachments"/>

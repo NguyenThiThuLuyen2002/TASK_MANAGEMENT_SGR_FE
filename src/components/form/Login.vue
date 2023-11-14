@@ -32,9 +32,9 @@ const login = () => {
                 localStorage.setItem('accessToken', JSON.stringify(response.data.token))
                 let role = decodeToken()
                 if (role === 1||role === 2)
-                    router.push({ name: 'requestList' });
+                    router.push({ name: 'adminLayout' });
                 if (role === 3)
-                    router.push({ name: 'requestListUser' });
+                    router.push({ name: 'userLayout' });
        
             }
             console.log(response.data.role);

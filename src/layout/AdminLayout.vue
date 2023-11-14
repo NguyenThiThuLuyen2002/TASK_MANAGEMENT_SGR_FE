@@ -6,5 +6,6 @@ import RequestList from '../components/listView/admin/RequestList.vue';
     <div class="flex w-full">
         <SideBar></SideBar>
         <RequestList></RequestList>
+        <!-- <router-view></router-view> -->
     </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full  box-border h-screen overflow-auto">
+  <div class="w-full pl-[18vw] box-border  ">
     <div>
       <div class="flex justify-between align-center my-4 mx-auto w-5/6 box-border">
         <!--search box-->
