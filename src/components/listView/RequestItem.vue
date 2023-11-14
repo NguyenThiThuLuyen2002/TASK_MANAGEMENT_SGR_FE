@@ -27,10 +27,10 @@
 
         </div>
     </div>
- 
 </template>
 <script>
 import axios from 'axios';
+import { useAuthStore } from '../../stores/auth'
 
 export default {
     props: {
@@ -42,11 +42,22 @@ export default {
         status: String,
 
     },
-    methods: {
+    setup(){
+        const auth = useAuthStore()
+        const jwt = auth.getBearerToken()
+        return{
+            auth,jwt
+        }
+    },
+    methods: {  
         async deleteRequest() {
             try {
                 // Perform the HTTP request to delete the task
-                await axios.delete(`http://localhost:3001/task/${this.id}`);
+                await axios.delete(`http://localhost:3001/task/${this.id}`,{
+                    headers: {
+                        Authorization: this.jwt
+                    },
+                })
                 console.log(`Task with ID ${this.id} deleted successfully.`);
 
                 // Emit the event to notify the parent component about the deletion
