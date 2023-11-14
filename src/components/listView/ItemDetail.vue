@@ -4,7 +4,7 @@ import { useItemDetail } from '../../stores/itemDetail'
 import { useAuthStore } from '../../stores/auth'
 import Editor from '../form/Editor.vue';
 import axios from 'axios';
-import { computed,onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import SideBar from '../listView/admin/SideBar.vue'
 import MainMessage from '../listView/itemMessage/MainMessage.vue'
 import ReplyMessage from '../listView/itemMessage/ReplyMessage.vue'
@@ -22,7 +22,13 @@ export default {
     const auth = useAuthStore()
     const route = useRoute()
     const selectedItem = computed(() => store.itemDetail)
-    axios.get(`http://localhost:3001/task/${route.params.id}`)
+    const jwt = auth.getBearerToken()
+
+    axios.get(`http://localhost:3001/task/${route.params.id}`, {
+      headers: {
+        Authorization: jwt
+      },
+    })
       .then(response => {
         console.log(response.data[0])
         if (response.data) {
@@ -36,7 +42,11 @@ export default {
         console.error('Error fetching data:', error);
       });
 
-    axios.get(`http://localhost:3001/task/${route.params.id}/comment`)
+    axios.get(`http://localhost:3001/task/${route.params.id}/comment`, {
+      headers: {
+        Authorization: jwt
+      },
+    })
       .then(response => {
         const replyMessages = response.data
         console.log("reply mess", replyMessages)
@@ -49,7 +59,8 @@ export default {
       auth,
       route,
       selectedItem,
-      
+      jwt
+
     }
 
   },
@@ -57,7 +68,7 @@ export default {
     return {
       toggleButton: true,
       replies: [],
-      attachments : [],
+      attachments: [],
     }
   },
 
@@ -69,16 +80,15 @@ export default {
       console.log("Message received from Editor:", message);
       const token = localStorage.getItem('accessToken').substring(1, localStorage.getItem('accessToken').length - 1)
 
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-      };
-      console.log("config", config)
+      
       const data = {
         content: message
       };
-      axios.post(`http://localhost:3001/task/${this.route.params.id}/comment`, data, config)
+      axios.post(`http://localhost:3001/task/${this.route.params.id}/comment`, data, {
+        headers: {
+          Authorization:this.jwt
+        },
+      })
         .then(response => {
           console.log(response.data);
           this.getReplyMessage();
@@ -93,7 +103,11 @@ export default {
     },
     async getReplyMessage() {
       try {
-        const response = await axios.get(`http://localhost:3001/task/${this.route.params.id}/comment`);
+        const response = await axios.get(`http://localhost:3001/task/${this.route.params.id}/comment`, {
+          headers: {
+            Authorization: this.jwt
+          },
+        });
         console.log(response.data)
         this.replies = response.data || []; // Fallback to an empty array if response.data is falsy
       } catch (error) {
@@ -101,9 +115,13 @@ export default {
       }
 
     },
-    async getAttachments(){
+    async getAttachments() {
       try {
-        const response = await axios.get(`http://localhost:3001/task/${this.route.params.id}/attachment`);
+        const response = await axios.get(`http://localhost:3001/task/${this.route.params.id}/attachment`, {
+          headers: {
+            Authorization: this.jwt
+          },
+        });
         console.log(response.data)
         this.attachments = response.data || []; // Fallback to an empty array if response.data is falsy
       } catch (error) {
@@ -126,7 +144,7 @@ export default {
     <div class="w-full mx-auto pt-10 h-full overflow-auto pl-[18vw]" >
       <h1 class="text-2xl font-semibold mb-4">{{ selectedItem.title }} </h1>
       <!-- info -->
-      <MainMessage :selectedItem="selectedItem" :attachments="attachments"/>
+      <MainMessage :selectedItem="selectedItem" :attachments="attachments" />
       <div>
         <hr>
       </div>

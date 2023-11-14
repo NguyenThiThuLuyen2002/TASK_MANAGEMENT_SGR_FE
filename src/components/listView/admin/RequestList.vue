@@ -34,16 +34,22 @@
 <script>
 import Item from '../RequestItem.vue';
 import { useItemDetail } from '../../../stores/itemDetail';
+import { useAuthStore } from '../../../stores/auth'
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode'
+
 export default {
   components: {
     Item,
   },
   setup() {
     const store = useItemDetail()
+    const auth = useAuthStore()
+    const jwt = auth.getBearerToken()
+  
+    
     return {
-      store
+      store,auth,jwt
     }
   },
   data() {
@@ -82,7 +88,12 @@ export default {
 
   created() {
     const t = this
-    axios.get('http://127.0.0.1:3001/task')
+
+    axios.get('http://127.0.0.1:3001/task', {
+      headers: {
+        Authorization: this.jwt
+      },
+    })
       .then(response => {
         t.listItems = response.data
         console.log(t.listItems)

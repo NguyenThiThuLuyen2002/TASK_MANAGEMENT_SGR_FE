@@ -70,7 +70,18 @@
 <script>
 import axios from 'axios';
 import SideBarUser from './SideBarUser.vue';
+import { useAuthStore } from '../../../stores/auth'
+
 export default {
+    setup() {
+        const auth = useAuthStore()
+        const jwt = auth.getBearerToken()
+
+        return{
+            auth,jwt
+        }
+        
+    },
     data() {
         return {
             title: "title1",
@@ -105,12 +116,7 @@ export default {
         async submitForm() {
             if (this.title && this.deadline && this.status && this.description) {
                 try {
-                    //get token
-                    let jwt = localStorage.getItem('accessToken');
-                    if (jwt.startsWith('"') && jwt.endsWith('"')) {
-                        jwt = jwt.substring(1, jwt.length - 1);
-                    }
-                    jwt = "Bearer " + jwt;
+                    
                     let requestTask = {
                         title: this.title,
                         deadline: this.deadline,
@@ -120,7 +126,7 @@ export default {
                     // 1: Post task
                     const responseTask = await axios.post("http://127.0.0.1:3001/task", requestTask, {
                         headers: {
-                            Authorization: jwt
+                            Authorization: this.jwt
                         },
                     });
                     let id = responseTask.data.ID;
@@ -134,6 +140,7 @@ export default {
                             const uploadResponse = await axios.post("http://127.0.0.1:3001/auth/upload", formData, {
                                 headers: {
                                     "Content-Type": "multipart/form-data",
+                                    Authorization: this.jwt,
                                 },
                             });
                             let url = uploadResponse.data.response.Location;
@@ -147,7 +154,7 @@ export default {
                                 // Post attachment
                                 const postattachmentResponse = await axios.post("http://127.0.0.1:3001/task/" + id + "/attachment", attachmentData, {
                                     headers: {
-                                        Authorization: jwt
+                                        Authorization: this.jwt
                                     },
                                 });
                                 console.log(postattachmentResponse);
