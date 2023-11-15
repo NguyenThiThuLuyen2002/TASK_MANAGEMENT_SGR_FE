@@ -1,134 +1,146 @@
 <script setup>
-import { reactive, shallowRef } from 'vue';
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
-
-import SideBar from '../../listView/SideBar.vue'
+import SideBar from '../SideBar.vue'
+import { notify } from '@kyvg/vue3-notification';
 const route = useRoute()
 const userId = route.params.id
-const selectedUser = shallowRef ({
+const selectedUser = ref({
     username: '',
     password: '',
     name: '',
     email: '',
     birthday: '',
     gender: '',
+    role: '',
 })
 
 axios.get('http://localhost:3001/user/' + userId).then((res) => {
     console.log(res.data)
-    selectedUser.value = res.data
+    if (res.data.length > 0) {
+        selectedUser.value = res.data[0];
+    }
 
 })
 
-// const updateUser = () => {
+const updateUser = () => {
+    // console.log(userId)
+    axios.put(`http://localhost:3001/user/${userId}` , {
+        username: selectedUser.value.username,
+        name: selectedUser.value.name,
+        birthday: selectedUser.value.birthday,
+        email: selectedUser.value.email,
+        gender: selectedUser.value.gender,
+        role: selectedUser.value.role
+    }).then(response => {
+        console.log(response)
 
-//     axios.put('http://localhost:3001/updateUser/' + 100, {
-//         username: selectedUser.value.username,
-//         name: selectedUser.value.name,
-//         age: selectedUser.value.age,
-//         email: selectedUser.value.email,
-//         gender: selectedUser.value.gender
-//     }).then(response => {
-//         console.log(response)
-//         notify({
-//                     title: 'Success',
-//                     text: response.data.message,
-//                     type: 'success'
-//                 });
+        notify({
+            title: 'Success',
+            text: response?.data ?? 'updated successfully',
+            type: 'success'
+        });
 
-//     })
-//     .catch(error => {
-//         console.log(error);
-//         notify({
-//                     title: 'Error',
-//                     text: error.response.data.error,
-//                     type: 'error'
-//                 });
-//     })
-// }
+
+    })
+        .catch(error => {
+            console.log(error);
+            notify({
+                title: 'Error',
+                text: error.response?.data ?? 'Errorsrsr',
+                type: 'error'
+            });
+        })
+
+}
 </script>
 <template>
     <div class="flex">
         <SideBar></SideBar>
         <!--container-->
-        <div class="w-full mx-auto">
+        <div class="w-full mx-auto pl-[16vw] h-screen flex justify-center items-center">
             <div class="mt-10 sm:mt-0">
                 <div class="md:grid md:grid-cols-2 md:gap-6">
                     <div class="mt-5 md:mt-0 md:col-span-2">
                         <section class="bg-white ">
-                            <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-                                <h2 class="mb-4 text-xl font-bold">General Information</h2>
+                            <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16 border rounded-xl">
+                                <h2 class="mb-4 text-xl font-bold text-blue-600 ">INFORMATION</h2>
                                 <form action="#">
                                     <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 ">
                                         <div class="w-full">
                                             <label class="block mb-2 text-sm font-medium ">Username</label>
-                                            <input type="text" name="username" id="username"
-                                                class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                v-model="selectedUser.username" autocomplete="off">
+                                            <el-input class="css-input" v-model="selectedUser.username"
+                                                placeholder="Please input" />
 
                                         </div>
                                         <div class="w-full">
                                             <label class="block mb-2 text-sm font-medium ">Password</label>
-                                            <input type="password" name="password" id="password"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                placeholder="*******" required="" readonly>
+                                            <el-input v-model="selectedUser.password" type="password" placeholder="********"
+                                                show-password disabled class="css-input" />
                                         </div>
-                                        <div>
+
+                                        <div class="w-full">
                                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full
                                                 name</label>
-                                            <input type="text" name="name" id="name"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                required="" v-model="selectedUser.name" autocomplete="off">
+                                            <el-input class="css-input" v-model="selectedUser.name"
+                                                placeholder="Please input" />
                                         </div>
                                         <div class="w-full">
                                             <label
                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                            <input type="email" name="email" id="email"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                required="" v-model="selectedUser.email" autocomplete="off">
+                                            <el-input class="css-input" v-model="selectedUser.email"
+                                                placeholder="Please input" />
                                         </div>
                                         <div class="w-full">
                                             <label
                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthday</label>
-                                            <input type="date" name="birthday" id="birthday"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                required="" v-model="selectedUser.birthday">
+                                            <el-date-picker style="width:250px;" v-model="selectedUser.birthday" type="date"
+                                                placeholder="Pick a Date" format="YYYY-MM-DD" value-format="YYYY-MM-DD"
+                                                class="css-input" />
+
+                                        </div>
+
+                                        <div>
+
+                                            <label
+                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">Gender</label>
+
+                                            <el-select v-model="selectedUser.gender" clearable placeholder="Select gender"
+                                                class="css-input">
+
+                                                <el-option label="Male" value="1"></el-option>
+
+                                                <el-option label="Female" value="0"></el-option>
+
+                                            </el-select>
+
                                         </div>
                                         <div>
                                             <label
-                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                                            <select id="gender"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                v-model="selectedUser.gender">
-                                                <option value="0">Male</option>
-                                                <option value="1">Female</option>
-                                                <option value="2">Other</option>
-                                            </select>
+                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
+
+                                            <el-select class="css-input" v-model="role" clearable placeholder="Select role">
+                                                <el-option label="Admin" value="1"></el-option>
+
+                                                <el-option label="User" value="3"></el-option>
+                                            </el-select>
                                         </div>
+
                                     </div>
-                                    <button type="button"
-                                        class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 mt-10"
-                                        @click="updateUser">Update</button>
+                                    <div class="w-full flex justify-center p-6  ">
+                                        <el-button @click="updateUser" type="primary">Update</el-button>
+                                    </div>
+
                                 </form>
                             </div>
                         </section>
                     </div>
                 </div>
             </div>
-
-            <!--button Save and reset-->
-            <!-- <div class="flex">
-            <button class="bg-green-500 p-2 rounded-md text-white mr-10">
-                Save Changes
-            </button>
-            <button class="bg-gray-300 p-2 rounded-md text-white " >
-                Reset
-            </button>
-
-    </div> -->
-
         </div>
     </div>
 </template>
-
+<style>.css-input {
+    width: 250px;
+}</style>
