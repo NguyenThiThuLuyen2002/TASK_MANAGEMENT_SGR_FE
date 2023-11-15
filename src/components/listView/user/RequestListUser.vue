@@ -100,9 +100,11 @@ export default {
             },
         })
             .then(response => {
-                t.originalListItems = response.data.result;
-                t.listItems = response.data.result;
+                console.log(response.data)
+                t.originalListItems = response.data;
+                t.listItems = response.data;
                 t.totalRecords = response.data.totalRecord;
+                console.log(t.originalListItems)
             })
 
             .catch(error => {
