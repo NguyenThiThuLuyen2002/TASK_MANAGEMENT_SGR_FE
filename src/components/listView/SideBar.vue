@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const logout = () => {
@@ -8,36 +9,55 @@ const logout = () => {
 const handleRequestList = () => {
     router.push({ name: 'adminLayout' });
 }
+const handleRequestListUser = () => {
+    router.push({ name: 'userLayout' });
+}
 const handleListUser = () => {
     router.push({ name: 'listUser' });
 }
+const handleProfile = () => {
+    router.push({ name: 'profile' });
+}
+const getRole = computed(() => {
+    console.log(localStorage.getItem('role'));
+    return localStorage.getItem('role')
+})
 </script>
 <template>
     <aside>
         <p>Management-Club</p>
-        <a href="javascript:void(0)" @click="handleRequestList" class="item">
-            <img src="../../../assets/icons/home.svg" alt="" class="icon">
+        <a v-if="getRole=='manager'" href="javascript:void(0)" @click="handleRequestList" class="item">
+            <img src="@/assets/icons/home.svg" alt="" class="icon">
+           <span>Home</span>
+        </a>
+        <a v-else href="javascript:void(0)" @click="handleRequestListUser" class="item">
+            <img src="@/assets/icons/home.svg" alt="" class="icon">
            <span>Home</span>
         </a>
         <a href="javascript:void(0) " class="item">
-            <img src="../../../assets/icons/inbox.svg" alt="" >
+            <img src="@/assets/icons/inbox.svg" alt="" >
             <span>Inbox</span>
         </a>
-        <a href="javascript:void(0)" class="item" @click="handleListUser">
-            <img src="../../../assets/icons/user.svg" alt="" >
+        <a v-if="getRole=='manager'" href="javascript:void(0)" class="item" @click="handleListUser">
+            <img src="@/assets/icons/user.svg" alt="" >
             <span>Users</span>
+        </a>
+        
+        <a v-else  href="javascript:void(0)" class="item" @click="handleProfile">
+            <img src="@/assets/icons/user.svg" alt="" >
+            <span>Profile</span>
         </a>
         <!-- <a href="javascript:void(0)" class="item">
             <i class="fa fa-star-o" aria-hidden="true"></i>
             Starred
         </a> -->
         <a href="javascript:void(0)" @click="logout" class="item">
-            <img src="../../../assets/icons/arrow_left.svg" alt="" class="icon">
+            <img src="@/assets/icons/arrow_left.svg" alt="" class="icon">
             <span>Logout</span>
         </a>
     </aside>
 </template>
-<style>
+<style scoped>
 aside {
     color: #fff;
     width: 16vw;

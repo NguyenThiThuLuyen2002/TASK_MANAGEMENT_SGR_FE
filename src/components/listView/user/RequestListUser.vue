@@ -35,11 +35,7 @@
         </div>
     </div>
 </template>
-<style>
-.css-scroll {
-    overflow: scroll;
-}
-</style>
+
 <script>
 import Item from '../RequestItem.vue';
 import { useAuthStore } from '../../../stores/auth'

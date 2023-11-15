@@ -1,6 +1,6 @@
 <template>
     <div >
-        <QuillEditor theme="snow" v-model:content="text" contentType="html"/>
+        <QuillEditor theme="snow" toolbar="full" v-model:content="text" contentType="html"/>
     </div>
     <!--button send-->
     <div class="mt-10">

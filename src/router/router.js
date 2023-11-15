@@ -6,15 +6,16 @@ import Login from '../components/form/Login.vue'
 import CreateRequest from '../components/listView/user/CreateRequest.vue'
 import RequestListUser from '../components/listView/user/RequestListUser.vue'
 import ItemDetail from '../components/listView/ItemDetail.vue'
-import Register from '../components/form/Register.vue'
+import Register from '../components/listView/admin/manageUser/Register.vue'
 import RequestList from '../components/listView/admin/RequestList.vue'
-import SideBar from '../components/listView/admin/SideBar.vue'
+import SideBar from '../components/listView/SideBar.vue'
 import AdminLayout from '../layout/AdminLayout.vue'
 import ListUser from '../components/listView/admin/manageUser/ListUser.vue'
 import UserDetail from '../components/listView/admin/manageUser/UserDetail.vue'
 import UserLayout from '../layout/UserLayout.vue'
 import Profile from '../components/listView/user/Profile.vue'
 import testInput from '../components/form/testInput.vue'
+import admintest from '../components/admintest.vue'
 const routes = [
   {
     path: '/login',
@@ -100,7 +101,14 @@ const routes = [
     path: '/testInput',
     name: 'testInput',
     component: testInput
-  }
+  },
+  
+  ,{
+    path: '/admintest',
+    name: 'admintest',
+    component: admintest
+  },
+
 
 ];
 

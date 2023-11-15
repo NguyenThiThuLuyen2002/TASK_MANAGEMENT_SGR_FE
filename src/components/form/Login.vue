@@ -6,6 +6,7 @@ import { useRouter } from 'vue-router'
 const username = ref('')
 const password = ref('')
 const router = useRouter()
+const user = ref([])
 const URL = 'http://localhost:3001/auth/login'
 import { jwtDecode } from 'jwt-decode'
 
@@ -30,14 +31,23 @@ const login = () => {
 
             if (response.data.token) {
                 localStorage.setItem('accessToken', JSON.stringify(response.data.token))
+
                 let role = decodeToken()
-                if (role === 1||role === 2)
+                if (role === 1||role === 2) {
+                    localStorage.setItem('role', 'manager')
+                    console.log(role);
                     router.push({ name: 'adminLayout' });
-                if (role === 3)
+                }
+                
+                if (role === 3) {
+                    localStorage.setItem('role', 'user')
+                    console.log(role);
+
                     router.push({ name: 'userLayout' });
+                }
        
             }
-            console.log(response.data.role);
+            console.log(response.data);
         }).catch((error) => {
             if (error.response) {
                 notify({

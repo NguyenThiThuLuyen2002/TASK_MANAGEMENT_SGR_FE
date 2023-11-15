@@ -33,13 +33,13 @@ const handleProfile = () => {
         </a>
     </aside>
 </template>
-<style>
+<style scoped>
 aside {
     color: #fff;
     width: 16vw;
     padding-left: 20px;
     height: 100vh;
-    background-image: linear-gradient(30deg, #0048bd, #44a7fd);
+    background-color: rgb(189, 129, 0);
     border-top-right-radius: 80px;
     position: fixed;
 }

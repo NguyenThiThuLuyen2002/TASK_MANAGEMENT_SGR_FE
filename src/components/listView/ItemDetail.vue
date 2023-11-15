@@ -5,7 +5,7 @@ import { useAuthStore } from '../../stores/auth'
 import Editor from '../form/Editor.vue';
 import axios from 'axios';
 import { computed, onMounted } from 'vue'
-import SideBar from '../listView/admin/SideBar.vue'
+import SideBar from '../listView/SideBar.vue'
 import MainMessage from '../listView/itemMessage/MainMessage.vue'
 import ReplyMessage from '../listView/itemMessage/ReplyMessage.vue'
 
@@ -90,14 +90,15 @@ export default {
         },
       })
         .then(response => {
+          
           console.log(response.data);
-          this.getReplyMessage();
         })
         .catch(error => {
           console.error('Error fetching data:', error);
         })
         .finally(() => {
           // Toggle button status should only be changed after the request is completed
+          this.getReplyMessage()
           this.toggleButton = !this.toggleButton;
         });
     },
@@ -148,7 +149,7 @@ export default {
       <div>
         <hr>
       </div>
-      <div class=" max-h-[280px] overflow-auto" id="journal-scroll">
+      <div class=" max-h-[280px] overflow-auto container-reply" id="journal-scroll">
         <div v-for="(reply, index) in replies" :key="index">
           <ReplyMessage :reply="reply" />
         </div>
@@ -168,7 +169,7 @@ export default {
 
   </div>
 </template>
-<style>
+<style scoped>
  #journal-scroll::-webkit-scrollbar {
             width: 4px;
             cursor: pointer;
@@ -185,4 +186,9 @@ export default {
             background-color: #a0aec0;
             /*outline: 1px solid slategrey;*/
         }
+.container-reply img{
+
+    max-width: 300px;
+    object-fit: contain;
+}
 </style>

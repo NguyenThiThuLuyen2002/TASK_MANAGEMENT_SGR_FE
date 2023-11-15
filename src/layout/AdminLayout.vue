@@ -1,5 +1,5 @@
 <script setup>
-import SideBar from '../components/listView/admin/SideBar.vue';
+import SideBar from '../components/listView/SideBar.vue';
 import RequestList from '../components/listView/admin/RequestList.vue';
 // export default {
 //     layout: 'AdminLayout',
@@ -9,6 +9,6 @@ import RequestList from '../components/listView/admin/RequestList.vue';
     <div class="flex w-full">
         <SideBar></SideBar>
         <RequestList></RequestList>
-        <!-- <router-view></router-view> -->
+        <!-- <router-view/> -->
     </div>
 </template>

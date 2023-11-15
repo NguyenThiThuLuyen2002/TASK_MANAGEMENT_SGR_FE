@@ -3,7 +3,7 @@ import { reactive, shallowRef } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 
-import SideBarUser from './SideBarUser.vue'
+import SideBar from '../../listView/SideBar.vue'
 const route = useRoute()
 const userId = route.params.id
 const selectedUser = shallowRef ({
@@ -50,7 +50,7 @@ axios.get('http://localhost:3001/user/' + userId).then((res) => {
 </script>
 <template>
     <div class="flex">
-        <SideBarUser></SideBarUser>
+        <SideBar></SideBar>
         <!--container-->
         <div class="w-full mx-auto">
             <div class="mt-10 sm:mt-0">

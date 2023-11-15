@@ -18,19 +18,16 @@
         </div>
       </div>
     </div>
-
     <!--request list-->
-    <div>
+    <div class="relative">
       <Item v-for="(item, index) in listItems" :key="index" :id="item.ID" :title="item.title" :sender="item.postedBy"
-        :time="item.createdAt" :profilePicture="item.profilePicture" :status="item.status" @click="selectItem(item)" @delete-request="handleDeleteRequest"  /> 
+        :time="item.createdAt" :profilePicture="item.profilePicture" :status="item.status" @click="selectItem(item)"
+        @delete-request="handleDeleteRequest" />
+        <el-pagination :page-size="10" layout="prev, pager, next" :total="totalRecords" @current-change="handleCurrentPage" class="absolute bottom-[-20%] left-[9%]"/>
     </div>
+
   </div>
 </template>
-<style>
-.css-scroll {
-  overflow: scroll;
-}
-</style>
 <script>
 import Item from '../RequestItem.vue';
 import { useItemDetail } from '../../../stores/itemDetail';
@@ -46,10 +43,10 @@ export default {
     const store = useItemDetail()
     const auth = useAuthStore()
     const jwt = auth.getBearerToken()
-  
-    
+
+
     return {
-      store,auth,jwt
+      store, auth, jwt
     }
   },
   data() {
@@ -84,20 +81,33 @@ export default {
     // handleSaveRequest(id) {
     //   this.listItems = this.listItems.filter(item => item.ID !== id);
     // }
+    handleCurrentPage(newPage){
+      axios.get(`http://localhost:3001/task?page=${newPage}`, {
+        headers: {
+          Authorization: this.jwt
+        },
+      })
+        .then(response => {
+          this.currentPage = newPage;
+          this.listItems = response.data.result;
+          this.totalRecords = response.data.totalRecord;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   },
 
   created() {
     const t = this
-
-    axios.get('http://127.0.0.1:3001/task', {
+    axios.get('http://localhost:3001/task?', {
       headers: {
         Authorization: this.jwt
       },
     })
       .then(response => {
-        t.listItems = response.data
-        console.log(t.listItems)
-      })
+        t.listItems = response.data.result;
+        t.totalRecords = response.data.totalRecord; })
 
       .catch(error => {
         console.log(error)
