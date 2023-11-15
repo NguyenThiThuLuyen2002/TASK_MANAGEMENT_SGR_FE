@@ -69,6 +69,9 @@ export default {
       toggleButton: true,
       replies: [],
       attachments: [],
+      commentAttachments: [],
+
+
     }
   },
 
@@ -76,30 +79,82 @@ export default {
     toggleEdit() {
       this.toggleButton = !this.toggleButton
     },
-    handleReplyMessage(message) {
+    async handleReplyMessage(message, files) {
       console.log("Message received from Editor:", message);
-      const token = localStorage.getItem('accessToken').substring(1, localStorage.getItem('accessToken').length - 1)
+      console.log("Message received from Editor:", files);
+      if (message.trim() !== '' || (files && files.length > 0)) {
+        const data = {
+          content: message
+        };
+        try {
+          const responseComment = await axios.post(`http://localhost:3001/task/${this.route.params.id}/comment`, data, {
+            headers: {
+              Authorization: this.jwt
+            },
+          })
 
-      
-      const data = {
-        content: message
-      };
-      axios.post(`http://localhost:3001/task/${this.route.params.id}/comment`, data, {
-        headers: {
-          Authorization:this.jwt
-        },
-      })
-        .then(response => {
-          console.log(response.data);
+          // .then(response => {
+          //   console.log("post comment thanh cong",response.data);
+
+          //   // this.getReplyMessage();
+          // })
+          // .catch(error => {
+          //   console.error('Error fetching data:', error);
+          // })
+          // .finally(() => {
+          //   // Toggle button status should only be changed after the request is completed
+          //   this.toggleButton = !this.toggleButton;
+          // });
+
+          let id = responseComment.data[0].ID;
+          console.log("cmtID", id)
+
+          // 2: Post attachment if it has file
+          if (files && files.length > 0) {
+            for (const file of files) {
+              // Create a FormData object to send files
+              let formData = new FormData();
+              formData.append("data", file);
+              // Upload the file to S3 and get the URL
+              const uploadResponse = await axios.post("http://127.0.0.1:3001/auth/upload", formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  Authorization: this.jwt,
+                },
+              });
+              let url = uploadResponse.data.response.Location;
+              let attachmentData = {
+                name: file.name,
+                path: url,
+                type: "pdf",
+                size: 1,
+              };
+              try {
+                // Post attachment
+                const postattachmentResponse = await axios.post("http://127.0.0.1:3001/task/comment/" + id + "/attachment", attachmentData, {
+                  headers: {
+                    Authorization: this.jwt
+                  },
+                });
+                console.log("daylafile", postattachmentResponse);
+              }
+              catch (error) {
+                console.error("Error:", error);
+              }
+            }
+          }
           this.getReplyMessage();
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-        })
-        .finally(() => {
-          // Toggle button status should only be changed after the request is completed
           this.toggleButton = !this.toggleButton;
-        });
+
+        } catch (error) {
+          console.log(error)
+          if (error) throw error
+        }
+      } else {
+        alert("Please fill in all required information.");
+      }
+
+
     },
     async getReplyMessage() {
       try {
@@ -117,6 +172,8 @@ export default {
     },
     async getAttachments() {
       try {
+        let idn = this.route.params.id
+        console.log("hh", idn)
         const response = await axios.get(`http://localhost:3001/task/${this.route.params.id}/attachment`, {
           headers: {
             Authorization: this.jwt
@@ -128,11 +185,27 @@ export default {
         console.error('Error fetching data:', error);
       }
     },
+    // async getCommentAttachments() {
+    //   try {
+    //     const response = await axios.get(`http://localhost:3001/task/comment/${this.route.params.id}/attachment`, {
+    //       headers: {
+    //         Authorization: this.jwt
+    //       },
+    //     });
+    //     console.log("commentedfile",response)
+    //     this.commentAttachments = response.data || []; // Fallback to an empty array if response.data is falsy
+    //   } catch (error) {
+    //     console.error('Error fetching data:', error);
+    //   }
+    // },
+
 
   },
   mounted() {
     this.getReplyMessage()
     this.getAttachments()
+    // this.getCommentAttachments()
+
 
   }
 
@@ -141,7 +214,7 @@ export default {
 <template>
   <div class=" w-5/6 h-screen box-border flex ">
     <SideBar></SideBar>
-    <div class="w-full mx-auto pt-10 h-full overflow-auto pl-[18vw]" >
+    <div class="w-full mx-auto pt-10 h-full pl-[18vw]">
       <h1 class="text-2xl font-semibold mb-4">{{ selectedItem.title }} </h1>
       <!-- info -->
       <MainMessage :selectedItem="selectedItem" :attachments="attachments" />
@@ -164,6 +237,7 @@ export default {
 
       <!--editor-->
       <Editor v-if="!toggleButton" @replyMessage="handleReplyMessage"></Editor>
+
     </div>
 
   </div>
