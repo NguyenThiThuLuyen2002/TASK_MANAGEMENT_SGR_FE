@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const logout = () => {
@@ -6,34 +7,53 @@ const logout = () => {
     router.push({ name: 'login' });
 }
 const handleRequestList = () => {
+    router.push({ name: 'adminLayout' });
+}
+const handleRequestListUser = () => {
     router.push({ name: 'userLayout' });
+}
+const handleListUser = () => {
+    router.push({ name: 'listUser' });
 }
 const handleProfile = () => {
     router.push({ name: 'profile' });
 }
+const getRole = computed(() => {
+    console.log(localStorage.getItem('role'));
+    return localStorage.getItem('role')
+})
 </script>
 <template>
     <aside>
         <p>Management-Club</p>
-        <a href="javascript:void(0)" @click="handleRequestList" class="item">
-            <img src="../../../assets/icons/home.svg" alt="" class="icon">
+        <a v-if="getRole=='manager'" href="javascript:void(0)" @click="handleRequestList" class="item">
+            <img src="@/assets/icons/home.svg" alt="" class="icon">
            <span>Home</span>
         </a>
-        <a href="javascript:void(0) " class="item">
-            <img src="../../../assets/icons/inbox.svg" alt="" >
-            <span>Inbox</span>
+        <a v-else href="javascript:void(0)" @click="handleRequestListUser" class="item">
+            <img src="@/assets/icons/home.svg" alt="" class="icon">
+           <span>Home</span>
         </a>
-        <a href="javascript:void(0)" class="item" @click="handleProfile">
-            <img src="../../../assets/icons/user.svg" alt="" >
+        <!-- <a href="javascript:void(0) " class="item">
+            <img src="@/assets/icons/inbox.svg" alt="" >
+            <span>Inbox</span>
+        </a> -->
+        <a v-if="getRole=='manager'" href="javascript:void(0)" class="item" @click="handleListUser">
+            <img src="@/assets/icons/user.svg" alt="" >
+            <span>Users</span>
+        </a>
+        
+        <a v-else  href="javascript:void(0)" class="item" @click="handleProfile">
+            <img src="@/assets/icons/user.svg" alt="" >
             <span>Profile</span>
         </a>
         <a href="javascript:void(0)" @click="logout" class="item">
-            <img src="../../../assets/icons/arrow_left.svg" alt="" class="icon">
+            <img src="@/assets/icons/arrow_left.svg" alt="" class="icon">
             <span>Logout</span>
         </a>
     </aside>
 </template>
-<style>
+<style scoped>
 aside {
     color: #fff;
     width: 16vw;
@@ -135,5 +155,26 @@ body {
     top: 5px;
     right: 5px;
 }
-
+/* For tablets and larger devices */
+@media (min-width: 768px) {
+  aside {
+    width: 250px; /* Adjust the width as appropriate for tablets */
+  }
+}
+/* For mobile devices */
+@media (max-width: 767px) {
+  aside {
+    width: 100%; /* Full width for smaller screens */
+    height: auto; /* Height adjusts to content */
+    position: static; /* Sidebar flows in document order */
+    border-top-right-radius: 0; /* No rounded corner */
+  }
+  aside .item img {
+    width: 25px; /* Adjust image size as needed */
+  }
+  aside .item {
+    justify-content: center; /* Center items on small screens */
+  }
+  /* Style changes for other elements inside the sidebar as needed */
+}
 </style>

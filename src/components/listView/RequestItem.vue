@@ -21,7 +21,13 @@
         </div>
         <div class="bg-white ">
             <button class="inline-flex items-center px-4 py-2  font-medium rounded-md">
-                <img src="../../assets/icons/trash.svg" alt="" class="w-5 mx-2" @click.stop="deleteRequest()">
+                <el-popconfirm title="Are you sure to delete this?" @confirm="deleteRequest()" @cancel="handleCancel()">
+                    <template #reference>
+                        <div @click.stop><img src="../../assets/icons/trash.svg" alt=""
+                                class="w-5 mx-2"></div>
+                    </template>
+                </el-popconfirm>
+
                 <img src="../../assets/icons/save.svg" alt="" class="w-5 mx-2">
             </button>
 
@@ -42,18 +48,18 @@ export default {
         status: String,
 
     },
-    setup(){
+    setup() {
         const auth = useAuthStore()
         const jwt = auth.getBearerToken()
-        return{
-            auth,jwt
+        return {
+            auth, jwt
         }
     },
-    methods: {  
+    methods: {
         async deleteRequest() {
             try {
                 // Perform the HTTP request to delete the task
-                await axios.delete(`http://localhost:3001/task/${this.id}`,{
+                await axios.delete(`http://localhost:3001/task/${this.id}`, {
                     headers: {
                         Authorization: this.jwt
                     },

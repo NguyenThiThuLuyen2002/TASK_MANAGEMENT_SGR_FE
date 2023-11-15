@@ -5,7 +5,7 @@ import { useAuthStore } from '../../stores/auth'
 import Editor from '../form/Editor.vue';
 import axios from 'axios';
 import { computed, onMounted } from 'vue'
-import SideBar from '../listView/admin/SideBar.vue'
+import SideBar from '../listView/SideBar.vue'
 import MainMessage from '../listView/itemMessage/MainMessage.vue'
 import ReplyMessage from '../listView/itemMessage/ReplyMessage.vue'
 
@@ -90,14 +90,15 @@ export default {
         },
       })
         .then(response => {
+          
           console.log(response.data);
-          this.getReplyMessage();
         })
         .catch(error => {
           console.error('Error fetching data:', error);
         })
         .finally(() => {
           // Toggle button status should only be changed after the request is completed
+          this.getReplyMessage()
           this.toggleButton = !this.toggleButton;
         });
     },
@@ -141,14 +142,14 @@ export default {
 <template>
   <div class=" w-5/6 h-screen box-border flex ">
     <SideBar></SideBar>
-    <div class="w-full mx-auto pt-10 h-full overflow-auto pl-[18vw]" >
+    <div class="w-full mx-auto pt-10 h-full  pl-[18vw]" >
       <h1 class="text-2xl font-semibold mb-4">{{ selectedItem.title }} </h1>
       <!-- info -->
       <MainMessage :selectedItem="selectedItem" :attachments="attachments" />
       <div>
         <hr>
       </div>
-      <div class=" max-h-[280px] overflow-auto">
+      <div class=" max-h-[280px] overflow-auto container-reply" id="journal-scroll">
         <div v-for="(reply, index) in replies" :key="index">
           <ReplyMessage :reply="reply" />
         </div>
@@ -168,4 +169,26 @@ export default {
 
   </div>
 </template>
-  
+<style scoped>
+ #journal-scroll::-webkit-scrollbar {
+            width: 4px;
+            cursor: pointer;
+            /*background-color: rgba(229, 231, 235, var(--bg-opacity));*/
+
+        }
+        #journal-scroll::-webkit-scrollbar-track {
+            background-color: rgba(229, 231, 235, var(--bg-opacity));
+            cursor: pointer;
+            /*background: red;*/
+        }
+        #journal-scroll::-webkit-scrollbar-thumb {
+            cursor: pointer;
+            background-color: #a0aec0;
+            /*outline: 1px solid slategrey;*/
+        }
+.container-reply img{
+
+    max-width: 300px;
+    object-fit: contain;
+}
+</style>

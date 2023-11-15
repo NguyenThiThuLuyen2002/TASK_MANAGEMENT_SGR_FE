@@ -2,7 +2,7 @@
   <div>
     <div class="info flex mt-5">
       <!--avatar-->
-      <img :src="reply.profilePicture" alt="" class="h-12 w-12 rounded-full mr-2">
+      <img :src="reply.profilePicture" alt="" class="max-w-[100px] h-12 w-12 rounded-full mr-2">
       <div>
         <div>
           <h2 class="text-lg font-semibold">From: {{ reply.postedBy }}</h2>
@@ -11,7 +11,7 @@
       </div>
     </div>
     <!-- message -->
-    <div v-html="reply.content" class="mt-10 h-auto">
+    <div v-html="reply.content" class="mt-10 h-auto text-box">
     </div>
     <!--Attachments-->
     <!-- <div>
@@ -47,3 +47,8 @@ export default {
 
 }
 </script>
+<style scoped>
+.text-box img {
+    max-width: 500px;
+  }
+</style>

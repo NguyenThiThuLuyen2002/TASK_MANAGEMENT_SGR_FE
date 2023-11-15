@@ -1,6 +1,6 @@
 
 <template>
-    <SideBarUser></SideBarUser>
+    <SideBar></SideBar>
     <div class="container mx-auto p-6 w-3/5 ">
         <h3 class="text-4xl font-semibold mb-4">Create Request</h3>
         <!-- Title -->
@@ -69,7 +69,7 @@
  
 <script>
 import axios from 'axios';
-import SideBarUser from './SideBarUser.vue';
+import SideBar from '../../listView/SideBar.vue'
 import { useAuthStore } from '../../../stores/auth'
 
 export default {
@@ -190,6 +190,6 @@ export default {
             this.description = "";
         },
     },
-    components: {  SideBarUser }
+    components: {  SideBar }
 };
 </script>
