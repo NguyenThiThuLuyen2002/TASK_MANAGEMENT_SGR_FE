@@ -114,6 +114,7 @@
 import axios from 'axios';
 import SideBar from '../../listView/SideBar.vue'
 import { useAuthStore } from '../../../stores/auth'
+import { notify } from '@kyvg/vue3-notification'
 
 export default {
     setup() {
@@ -207,8 +208,12 @@ export default {
                             }
                         }
                     }
-                    alert("Submitted successfully!");
-                    // Redirect to the itemDetail page
+                    
+                notify({
+                    title: 'Success',
+                    text: 'Create request successfully',
+                    type: 'success'
+                })
                     try {
                         if (responseTask)
                             this.$router.push({ name: "itemDetail", params: { id: responseTask.data.ID } });
@@ -222,7 +227,11 @@ export default {
                 }
             }
             else {
-                alert("Please fill in all required information.");
+               notify({
+                    title: 'Error',
+                    text: 'Please fill in all required fields',
+                    type: 'error'
+                })
             }
         },
         refreshForm() {

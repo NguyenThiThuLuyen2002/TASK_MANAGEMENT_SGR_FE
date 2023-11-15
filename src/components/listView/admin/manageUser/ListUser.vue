@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import SideBar from '../../SideBar.vue';
+import { notify } from '@kyvg/vue3-notification'
 const router = useRouter();
 let users = ref([])
 const tableColumns = ["Username", "Name", "Gender", "Birthday", "Actions"]
@@ -12,6 +13,7 @@ const page = ref(1);
 const getGenderLabel = (gender) => {
     return gender === 0 ? 'Female' : 'Male';
 };
+
 
 // get all users
 const getAllUsers = () => {
@@ -61,11 +63,22 @@ const deleteUser = (userId) => {
         .then(response => {
             console.log(response)
             getAllUsers()
+            notify({
+                title: 'Success',
+                text: response?.data ?? 'deleted successfully',
+                type: 'success'
+            });
 
         })
+
         .catch(error => {
             console.log(error);
             console.log(localStorage.getItem('accessToken'))
+            notify({
+                title: 'Error',
+                text: error.response?.data ?? 'Errorsrsr',
+                type: 'error'
+            });
         })
 
 }

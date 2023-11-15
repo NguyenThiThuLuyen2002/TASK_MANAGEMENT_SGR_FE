@@ -14,8 +14,8 @@
       <input type="file" class="hidden" id="file-upload" @change="handleFileUpload" name="file-upload"
         accept="application/pdf" multiple>
     </div>
-    <div class=" flex pt-2 " v-if="selectedFileNames.length > 0" >
-      <p class=" items-center">Selected Files:</p>
+    <div class=" flex pt-[25px] pl-2  " v-if="selectedFileNames.length > 0" >
+      <p class=" items-center">Selected Files: </p>
       <ul >
         <li class=" text-blue-600" v-for="fileName in selectedFileNames" :key="fileName">{{ fileName.name }}</li>
       </ul>

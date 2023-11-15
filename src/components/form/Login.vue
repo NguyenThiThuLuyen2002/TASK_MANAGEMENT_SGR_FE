@@ -20,6 +20,16 @@ const decodeToken = () => {
     }
     return null
 }
+const decodeId = () => {
+    let token = localStorage.getItem('accessToken')
+    console.log(token)
+    if (token) {
+        let decoded = jwtDecode(token)
+        console.log(decoded)
+        return decoded.ID
+    }
+    return null
+}
 
 
 const login = () => {
@@ -40,11 +50,20 @@ const login = () => {
                 }
                 
                 if (role === 3) {
+                    let id = decodeId()
                     localStorage.setItem('role', 'user')
+                    localStorage.setItem('id', response.data.ID)
+                    
                     console.log(role);
+                    console.log(response.data.ID)
 
                     router.push({ name: 'userLayout' });
                 }
+                notify({
+                    title: 'Success',
+                    text: 'Login successfully',
+                    type: 'success',
+                });
        
             }
             console.log(response.data);

@@ -54,7 +54,6 @@ export default {
         return {
             listItems: [],
             selectedItem: null,
-            originalListItems: [],
             searchQuery: '',
 
         };
@@ -101,10 +100,9 @@ export default {
         })
             .then(response => {
                 console.log("dung loi",response.data)
-                t.originalListItems = response.data
                 t.listItems = response.data;
                 t.totalRecords = response.data.totalRecord;
-                console.log(t.originalListItems)
+
             })
 
             .catch(error => {

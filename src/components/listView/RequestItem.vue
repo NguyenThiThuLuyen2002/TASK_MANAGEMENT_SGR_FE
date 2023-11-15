@@ -28,7 +28,7 @@
                     </template>
                 </el-popconfirm>
 
-                <img src="../../assets/icons/save.svg" alt="" class="w-5 mx-2">
+                <!-- <img src="../../assets/icons/save.svg" alt="" class="w-5 mx-2"> -->
             </button>
 
         </div>
@@ -69,6 +69,7 @@ export default {
                     },
                 })
                 console.log(`Task with ID ${this.id} deleted successfully.`);
+                
 
                 // Emit the event to notify the parent component about the deletion
                 this.$emit('delete-request', this.id);

@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const logout = () => {
     localStorage.removeItem('accessToken')
+    localStorage.removeItem('role')
     router.push({ name: 'login' });
 }
 const handleRequestList = () => {
@@ -16,7 +17,7 @@ const handleListUser = () => {
     router.push({ name: 'listUser' });
 }
 const handleProfile = () => {
-    router.push({ name: 'profile' });
+    router.push({ name: 'profile' , params: { id: localStorage.getItem('id') }});
 }
 const getRole = computed(() => {
     console.log(localStorage.getItem('role'));
@@ -43,10 +44,10 @@ const getRole = computed(() => {
             <span>Users</span>
         </a>
         
-        <a v-else  href="javascript:void(0)" class="item" @click="handleProfile">
+        <!-- <a v-else  href="javascript:void(0)" class="item" @click="handleProfile">
             <img src="@/assets/icons/user.svg" alt="" >
             <span>Profile</span>
-        </a>
+        </a> -->
         <a href="javascript:void(0)" @click="logout" class="item">
             <img src="@/assets/icons/arrow_left.svg" alt="" class="icon">
             <span>Logout</span>

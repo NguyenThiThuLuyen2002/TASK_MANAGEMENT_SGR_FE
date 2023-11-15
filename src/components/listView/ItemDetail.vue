@@ -8,6 +8,7 @@ import { computed, onMounted } from 'vue'
 import SideBar from '../listView/SideBar.vue'
 import MainMessage from '../listView/itemMessage/MainMessage.vue'
 import ReplyMessage from '../listView/itemMessage/ReplyMessage.vue'
+import { notify } from '@kyvg/vue3-notification'
 
 export default {
   components: {
@@ -148,10 +149,14 @@ export default {
 
         } catch (error) {
           console.log(error)
-          if (error) throw error
+          // if (error) throw error
         }
       } else {
-        alert("Please fill in all required information.");
+        notify({
+          title: 'Error',
+          text: 'Fill out the form',
+          type: 'error'
+        });
       }
 
 

@@ -5,7 +5,9 @@ import axios from 'axios';
 import SideBar from '../SideBar.vue'
 import { notify } from '@kyvg/vue3-notification';
 const route = useRoute()
-const userId = route.params.ID
+const userId = localStorage.getItem('id')
+console.log("usserid",userId)
+
 const selectedUser = ref({
     username: '',
     password: '',
@@ -24,36 +26,6 @@ axios.get(`http://54.196.242.13/user/${userId}`).then((res) => {
 
 })
 
-const updateUser = () => {
-    // console.log(userId)
-    axios.put(`http://54.196.242.13/user/${userId}` , {
-        username: selectedUser.value.username,
-        name: selectedUser.value.name,
-        birthday: selectedUser.value.birthday,
-        email: selectedUser.value.email,
-        gender: selectedUser.value.gender,
-        role: selectedUser.value.role
-    }).then(response => {
-        console.log(response)
-
-        notify({
-            title: 'Success',
-            text: response?.data ?? 'updated successfully',
-            type: 'success'
-        });
-
-
-    })
-        .catch(error => {
-            console.log(error);
-            notify({
-                title: 'Error',
-                text: error.response?.data ?? 'Errorsrsr',
-                type: 'error'
-            });
-        })
-
-}
 </script>
 <template>
     <div class="flex">
@@ -64,7 +36,7 @@ const updateUser = () => {
                 <div class="md:grid md:grid-cols-2 md:gap-6">
                     <div class="mt-5 md:mt-0 md:col-span-2">
                         <section class="bg-white ">
-                            <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16 border rounded-xl">
+                            <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16 border mt-[-100px] rounded-xl">
                                 <h2 class="mb-4 text-xl font-bold text-blue-600 ">INFORMATION</h2>
                                 <form action="#">
                                     <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 ">
@@ -128,9 +100,7 @@ const updateUser = () => {
                                         </div>
 
                                     </div>
-                                    <div class="w-full flex justify-center p-6  ">
-                                        <el-button @click="updateUser" type="primary">Update</el-button>
-                                    </div>
+                                
 
                                 </form>
                             </div>
