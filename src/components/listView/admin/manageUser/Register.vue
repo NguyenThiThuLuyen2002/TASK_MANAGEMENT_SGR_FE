@@ -150,7 +150,7 @@ for (let ageOpt = 0; ageOpt <= 100; ageOpt++) {
 
                                     </div>
                                     <div class="w-full flex justify-center p-6  " @click="register">
-                                        <el-button type="primary" >Primary</el-button>
+                                        <el-button type="button" >Create</el-button>
                                     </div>
 
                                 </form>

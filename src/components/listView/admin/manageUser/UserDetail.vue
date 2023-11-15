@@ -95,9 +95,8 @@ const updateUser = () => {
                                         <div class="w-full">
                                             <label
                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthday</label>
-                                            <el-date-picker style="width:250px;" v-model="selectedUser.birthday" type="date"
-                                                placeholder="Pick a Date" format="YYYY-MM-DD" value-format="YYYY-MM-DD"
-                                                class="css-input" />
+                                            <el-date-picker style="width:300px; height: 40px;" v-model="selectedUser.birthday" type="date"
+                                                placeholder="Pick a Date" format="YYYY-MM-DD" value-format="YYYY-MM-DD" class="css-input" />
 
                                         </div>
 

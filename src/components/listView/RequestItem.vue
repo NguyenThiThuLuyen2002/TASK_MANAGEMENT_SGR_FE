@@ -4,7 +4,7 @@
             <!-- Checkbox -->
             <!-- <input type="checkbox" class="mr-4" /> -->
             <!-- Avatar -->
-            <img :src="'..//public/' + profilePicture" alt="Avatar" class="w-12 h-12 rounded-full object-cover" />
+            <img :src="'..//public'+ profilePicture" alt="Avatar" class="w-12 h-12 rounded-full object-cover" />
             <!-- Title, Sender, Time -->
             <div class="ml-4">
                 <h2 class="text-lg font-semibold">{{ title }}</h2>
@@ -20,8 +20,8 @@
             <p class="text-gray-500 text-sm">Status: <span class="text-green-500"> {{ status }}</span> </p>
         </div>
         <div class="bg-white ">
-            <button class="inline-flex items-center px-4 py-2  font-medium rounded-md">
-                <el-popconfirm title="Are you sure to delete this?" @confirm="deleteRequest()" @cancel="handleCancel()">
+            <button class="inline-flex items-center px-4 py-2  font-medium rounded-md" v-show="getRole =='user'  " >
+                <el-popconfirm  title="Are you sure to delete this?" @confirm="deleteRequest()" @cancel="handleCancel()">
                     <template #reference>
                         <div @click.stop><img src="../../assets/icons/trash.svg" alt=""
                                 class="w-5 mx-2"></div>
@@ -51,12 +51,16 @@ export default {
     setup() {
         const auth = useAuthStore()
         const jwt = auth.getBearerToken()
+        const getRole = localStorage.getItem('role')
         return {
-            auth, jwt
+            auth, jwt,
+            getRole
         }
+
     },
     methods: {
         async deleteRequest() {
+
             try {
                 // Perform the HTTP request to delete the task
                 await axios.delete(`http://localhost:3001/task/${this.id}`, {
