@@ -16,7 +16,7 @@
         actions: {
             async login(username, password) {
                 try {
-                    const { data: respData } = await axios.post('http://localhost:8001/auth/login',
+                    const { data: respData } = await axios.post('http://54.196.242.13/auth/login',
                         {
                             username: username,
                             password: password,

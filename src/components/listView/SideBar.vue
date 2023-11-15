@@ -163,12 +163,7 @@ body {
 }
 /* For mobile devices */
 @media (max-width: 767px) {
-  aside {
-    width: 100%; /* Full width for smaller screens */
-    height: auto; /* Height adjusts to content */
-    position: static; /* Sidebar flows in document order */
-    border-top-right-radius: 0; /* No rounded corner */
-  }
+
   aside .item img {
     width: 25px; /* Adjust image size as needed */
   }

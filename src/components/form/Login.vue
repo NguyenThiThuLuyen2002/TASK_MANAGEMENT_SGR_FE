@@ -7,7 +7,7 @@ const username = ref('')
 const password = ref('')
 const router = useRouter()
 const user = ref([])
-const URL = 'http://localhost:3001/auth/login'
+const URL = 'http://54.196.242.13/auth/login'
 import { jwtDecode } from 'jwt-decode'
 
 const decodeToken = () => {

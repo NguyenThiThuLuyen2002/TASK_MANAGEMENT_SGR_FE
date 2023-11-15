@@ -16,7 +16,7 @@ const selectedUser = ref({
     role: '',
 })
 
-axios.get('http://localhost:3001/user/' + userId).then((res) => {
+axios.get('http://54.196.242.13/user/' + userId).then((res) => {
     console.log(res.data)
     if (res.data.length > 0) {
         selectedUser.value = res.data[0];
@@ -26,7 +26,7 @@ axios.get('http://localhost:3001/user/' + userId).then((res) => {
 
 const updateUser = () => {
     // console.log(userId)
-    axios.put(`http://localhost:3001/user/${userId}` , {
+    axios.put(`http://54.196.242.13/user/${userId}`, {
         username: selectedUser.value.username,
         name: selectedUser.value.name,
         birthday: selectedUser.value.birthday,
@@ -92,12 +92,11 @@ const updateUser = () => {
                                             <el-input class="css-input" v-model="selectedUser.email"
                                                 placeholder="Please input" />
                                         </div>
-                                        <div class="w-full">
-                                            <label
-                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthday</label>
-                                            <el-date-picker style="width:300px; height: 40px;" v-model="selectedUser.birthday" type="date"
-                                                placeholder="Pick a Date" format="YYYY-MM-DD" value-format="YYYY-MM-DD" class="css-input" />
-
+                                        <div class="mb-4">
+                                            <label class="block mb-2 text-sm font-medium text-gray-700">Birthday<span
+                                                    class="text-red-500">*</span></label>
+                                            <input v-model="selectedUser.birthday" type="date"
+                                                class="block p-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                         </div>
 
                                         <div>
@@ -140,6 +139,8 @@ const updateUser = () => {
         </div>
     </div>
 </template>
-<style>.css-input {
+<style>
+.css-input {
     width: 250px;
-}</style>
+}
+</style>

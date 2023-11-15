@@ -15,7 +15,7 @@ const getGenderLabel = (gender) => {
 
 // get all users
 const getAllUsers = () => {
-    axios.get(`http://localhost:3001/user`, {
+    axios.get(`http://54.196.242.13/user`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
@@ -52,7 +52,7 @@ const createUser = () => {
 
 
 const deleteUser = (userId) => {
-    axios.delete(`http://localhost:3001/user/` +userId, {
+    axios.delete(`http://54.196.242.13/user/` +userId, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
@@ -70,7 +70,7 @@ const deleteUser = (userId) => {
 
 }
 const handleCurrentPage = (newPage) => {
-    axios.get(`http://localhost:3001/user?page=${newPage}`, {
+    axios.get(`http://54.196.242.13/user?page=${newPage}`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }

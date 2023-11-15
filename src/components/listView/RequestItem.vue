@@ -63,7 +63,7 @@ export default {
 
             try {
                 // Perform the HTTP request to delete the task
-                await axios.delete(`http://localhost:3001/task/${this.id}`, {
+                await axios.delete(`http://54.196.242.13/task/${this.id}`, {
                     headers: {
                         Authorization: this.jwt
                     },

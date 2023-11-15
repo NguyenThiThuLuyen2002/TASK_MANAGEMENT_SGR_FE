@@ -24,7 +24,7 @@ export default {
     const selectedItem = computed(() => store.itemDetail)
     const jwt = auth.getBearerToken()
 
-    axios.get(`http://localhost:3001/task/${route.params.id}`, {
+    axios.get(`http://54.196.242.13/task/${route.params.id}`, {
       headers: {
         Authorization: jwt
       },
@@ -42,7 +42,7 @@ export default {
         console.error('Error fetching data:', error);
       });
 
-    axios.get(`http://localhost:3001/task/${route.params.id}/comment`, {
+    axios.get(`http://54.196.242.13/task/${route.params.id}/comment`, {
       headers: {
         Authorization: jwt
       },
@@ -87,7 +87,7 @@ export default {
           content: message
         };
         try {
-          const responseComment = await axios.post(`http://localhost:3001/task/${this.route.params.id}/comment`, data, {
+          const responseComment = await axios.post(`http://54.196.242.13/task/${this.route.params.id}/comment`, data, {
             headers: {
               Authorization: this.jwt
             },
@@ -116,7 +116,7 @@ export default {
               let formData = new FormData();
               formData.append("data", file);
               // Upload the file to S3 and get the URL
-              const uploadResponse = await axios.post("http://127.0.0.1:3001/auth/upload", formData, {
+              const uploadResponse = await axios.post("http://54.196.242.13/auth/upload", formData, {
                 headers: {
                   "Content-Type": "multipart/form-data",
                   Authorization: this.jwt,
@@ -131,7 +131,7 @@ export default {
               };
               try {
                 // Post attachment
-                const postattachmentResponse = await axios.post("http://127.0.0.1:3001/task/comment/" + id + "/attachment", attachmentData, {
+                const postattachmentResponse = await axios.post("http://54.196.242.13/task/comment/" + id + "/attachment", attachmentData, {
                   headers: {
                     Authorization: this.jwt
                   },
@@ -158,7 +158,7 @@ export default {
     },
     async getReplyMessage() {
       try {
-        const response = await axios.get(`http://localhost:3001/task/${this.route.params.id}/comment`, {
+        const response = await axios.get(`http://54.196.242.13/task/${this.route.params.id}/comment`, {
           headers: {
             Authorization: this.jwt
           },
@@ -174,7 +174,7 @@ export default {
       try {
         let idn = this.route.params.id
         console.log("hh", idn)
-        const response = await axios.get(`http://localhost:3001/task/${this.route.params.id}/attachment`, {
+        const response = await axios.get(`http://54.196.242.13/task/${this.route.params.id}/attachment`, {
           headers: {
             Authorization: this.jwt
           },
@@ -187,7 +187,7 @@ export default {
     },
     // async getCommentAttachments() {
     //   try {
-    //     const response = await axios.get(`http://localhost:3001/task/comment/${this.route.params.id}/attachment`, {
+    //     const response = await axios.get(`http://54.196.242.13/task/comment/${this.route.params.id}/attachment`, {
     //       headers: {
     //         Authorization: this.jwt
     //       },

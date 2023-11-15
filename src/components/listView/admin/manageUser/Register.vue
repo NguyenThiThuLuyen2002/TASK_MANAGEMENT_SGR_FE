@@ -6,12 +6,12 @@ import { useRouter } from 'vue-router'
 import SideBar from '../../SideBar.vue';
 import { ElSelect, ElOption } from 'element-plus';
 import {
-  Check,
-  Delete,
-  Edit,
-  Message,
-  Search,
-  Star,
+    Check,
+    Delete,
+    Edit,
+    Message,
+    Search,
+    Star,
 } from '@element-plus/icons-vue'
 const router = useRouter()
 const username = ref('')
@@ -41,7 +41,7 @@ const register = async () => {
 
     }
     console.log(data)
-    await axios.post(`http://localhost:3001/auth/register`, {
+    await axios.post(`http://54.196.242.13/auth/register`, {
         username: username.value,
         password: password.value,
         name: name.value,
@@ -102,7 +102,7 @@ for (let ageOpt = 0; ageOpt <= 100; ageOpt++) {
                                         <div class="w-full">
                                             <label class="block mb-2 text-sm font-medium ">Password</label>
                                             <el-input v-model="password" type="password" placeholder="********"
-                                                show-password  class="css-input"/>
+                                                show-password class="css-input" />
                                         </div>
 
                                         <div class="w-full">
@@ -115,18 +115,18 @@ for (let ageOpt = 0; ageOpt <= 100; ageOpt++) {
                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                                             <el-input class="css-input" v-model="email" placeholder="Please input" />
                                         </div>
-                                        <div class="w-full">
-                                            <label
-                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthday</label>
-                                            <el-date-picker style="width:300px; height: 40px;" v-model="birthday" type="date"
-                                                placeholder="Pick a Date" format="YYYY-MM-DD" value-format="YYYY-MM-DD" class="css-input" />
-
+                                        <div class="mb-4">
+                                            <label class="block mb-2 text-sm font-medium text-gray-700">Birthday<span
+                                                    class="text-red-500">*</span></label>
+                                            <input v-model="birthday" type="date"
+                                                class="block p-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                         </div>
                                         <div>
                                             <label
                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
 
-                                            <el-select class="css-input" style="width:300px; height: 40px;" v-model="role" clearable placeholder="Select role">
+                                            <el-select class="css-input" style="width:300px; height: 40px;" v-model="role"
+                                                clearable placeholder="Select role">
                                                 <el-option label="Admin" value="1"></el-option>
 
                                                 <el-option label="User" value="3"></el-option>
@@ -138,7 +138,7 @@ for (let ageOpt = 0; ageOpt <= 100; ageOpt++) {
                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">Gender</label>
 
                                             <el-select v-model="gender" clearable placeholder="Select gender"
-                                               class="css-input" >
+                                                class="css-input">
 
                                                 <el-option label="Male" value="1"></el-option>
 
@@ -150,7 +150,7 @@ for (let ageOpt = 0; ageOpt <= 100; ageOpt++) {
 
                                     </div>
                                     <div class="w-full flex justify-center p-6  " @click="register">
-                                        <el-button type="button" >Create</el-button>
+                                        <el-button type="button">Create</el-button>
                                     </div>
 
                                 </form>
@@ -168,6 +168,5 @@ for (let ageOpt = 0; ageOpt <= 100; ageOpt++) {
     width: 300px;
     height: 40px;
 }
-
 </style>
 

@@ -94,14 +94,14 @@ export default {
 
     created() {
         const t = this
-        axios.get('http://localhost:3001/task?', {
+        axios.get('http://54.196.242.13/task/myTask', {
             headers: {
                 Authorization: this.jwt
             },
         })
             .then(response => {
-                console.log(response.data)
-                t.originalListItems = response.data;
+                console.log("dung loi",response.data)
+                t.originalListItems = response.data
                 t.listItems = response.data;
                 t.totalRecords = response.data.totalRecord;
                 console.log(t.originalListItems)

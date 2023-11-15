@@ -167,7 +167,7 @@ export default {
                         description: this.description,
                     };
                     // 1: Post task
-                    const responseTask = await axios.post("http://127.0.0.1:3001/task", requestTask, {
+                    const responseTask = await axios.post("http://54.196.242.13/task", requestTask, {
                         headers: {
                             Authorization: this.jwt
                         },
@@ -180,7 +180,7 @@ export default {
                             let formData = new FormData();
                             formData.append("data", file);
                             // Upload the file to S3 and get the URL
-                            const uploadResponse = await axios.post("http://127.0.0.1:3001/auth/upload", formData, {
+                            const uploadResponse = await axios.post("http://54.196.242.13/auth/upload", formData, {
                                 headers: {
                                     "Content-Type": "multipart/form-data",
                                     Authorization: this.jwt,
@@ -195,7 +195,7 @@ export default {
                             };
                             try {
                                 // Post attachment
-                                const postattachmentResponse = await axios.post("http://127.0.0.1:3001/task/" + id + "/attachment", attachmentData, {
+                                const postattachmentResponse = await axios.post("http://54.196.242.13/task/" + id + "/attachment", attachmentData, {
                                     headers: {
                                         Authorization: this.jwt
                                     },

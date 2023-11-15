@@ -74,7 +74,7 @@ export default {
       return null
     },
     handleCurrentPage(newPage) {
-      axios.get(`http://localhost:3001/task?page=${newPage}`, {
+      axios.get(`http://54.196.242.13/task?page=${newPage}`, {
         headers: {
           Authorization: this.jwt
         },
@@ -124,7 +124,7 @@ export default {
 
   created() {
     const t = this
-    axios.get('http://localhost:3001/task?', {
+    axios.get('http://54.196.242.13/task', {
       headers: {
         Authorization: this.jwt
       },

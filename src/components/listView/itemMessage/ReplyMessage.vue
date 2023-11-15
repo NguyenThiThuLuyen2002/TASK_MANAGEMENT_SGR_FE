@@ -76,7 +76,7 @@ export default {
   methods: {
     async getCommentAttachments() {
       try {
-        const response = await axios.get(`http://localhost:3001/task/comment/${this.reply.ID}/attachment`, {
+        const response = await axios.get(`http://54.196.242.13/task/comment/${this.reply.ID}/attachment`, {
           headers: {
             Authorization: this.jwt
           },

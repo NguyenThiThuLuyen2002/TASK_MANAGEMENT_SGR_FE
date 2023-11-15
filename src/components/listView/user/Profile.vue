@@ -5,7 +5,7 @@ import axios from 'axios';
 import SideBar from '../SideBar.vue'
 import { notify } from '@kyvg/vue3-notification';
 const route = useRoute()
-const userId = route.params.id
+const userId = route.params.ID
 const selectedUser = ref({
     username: '',
     password: '',
@@ -16,8 +16,8 @@ const selectedUser = ref({
     role: '',
 })
 
-axios.get('http://localhost:3001/user/' + userId).then((res) => {
-    console.log(res.data)
+axios.get(`http://54.196.242.13/user/${userId}`).then((res) => {
+    console.log()
     if (res.data.length > 0) {
         selectedUser.value = res.data[0];
     }
@@ -26,7 +26,7 @@ axios.get('http://localhost:3001/user/' + userId).then((res) => {
 
 const updateUser = () => {
     // console.log(userId)
-    axios.put(`http://localhost:3001/user/${userId}` , {
+    axios.put(`http://54.196.242.13/user/${userId}` , {
         username: selectedUser.value.username,
         name: selectedUser.value.name,
         birthday: selectedUser.value.birthday,
